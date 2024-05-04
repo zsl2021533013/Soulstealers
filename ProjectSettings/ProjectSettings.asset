@@ -636,7 +636,7 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     Android: ENABLE_LOG
-    Standalone: ENABLE_LOG
+    Standalone: ENABLE_LOG;USE_NAVMESH;TMP_PRESENT;USE_NEW_INPUT;USE_CINEMACHINE;USE_TIMELINE
     WebGL: ENABLE_LOG
     Windows Store Apps: ENABLE_LOG
     iPhone: ENABLE_LOG
@@ -730,7 +730,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0

@@ -14,7 +14,7 @@ namespace StarForce.Editor.DataTableTools
 {
     public sealed class DataTableGeneratorMenu
     {
-        [MenuItem("Soulstealers/Generate DataTables")]
+        [MenuItem("Tools/Soulstealers/Generate DataTables")]
         private static void GenerateDataTables()
         {
             foreach (string dataTableName in ProcedurePreload.DataTableNames)

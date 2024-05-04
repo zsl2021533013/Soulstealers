@@ -5,7 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 // 此文件由工具自动生成，请勿直接修改。
-// 生成时间：2024-04-28 18:24:39.556
+// 生成时间：2024-04-30 16:24:04.203
 //------------------------------------------------------------
 
 using GameFramework;
@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using GameMain.Scripts.DataTable;
 
 namespace GameMain.Scripts.DataTable
 {
@@ -37,6 +38,15 @@ namespace GameMain.Scripts.DataTable
         }
 
         /// <summary>
+        /// 获取备注。
+        /// </summary>
+        public string Remark
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// 获取资源名称。
         /// </summary>
         public string AssetName
@@ -56,10 +66,8 @@ namespace GameMain.Scripts.DataTable
             int index = 0;
             index++;
             m_Id = int.Parse(columnStrings[index++]);
-            index++;
+            Remark = columnStrings[index++];
             AssetName = columnStrings[index++];
-            index++;
-            index++;
 
             GeneratePropertyArray();
             return true;
@@ -72,6 +80,7 @@ namespace GameMain.Scripts.DataTable
                 using (BinaryReader binaryReader = new BinaryReader(memoryStream, Encoding.UTF8))
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
+                    Remark = binaryReader.ReadString();
                     AssetName = binaryReader.ReadString();
                 }
             }

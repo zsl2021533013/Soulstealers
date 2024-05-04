@@ -5,7 +5,9 @@ using GameFramework.Procedure;
 using GameMain.Scripts.DataTable;
 using GameMain.Scripts.Definition.Constant;
 using UnityGameFramework.Runtime;
+
 using AssetUtility = GameMain.Scripts.Utility.AssetUtility;
+using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
 namespace GameMain.Scripts.Procedure
 {
@@ -16,7 +18,7 @@ namespace GameMain.Scripts.Procedure
         private bool m_ChangeToMenu = false;
         private bool m_IsChangeSceneComplete = false;
 
-        protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
+        protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
 
@@ -70,7 +72,7 @@ namespace GameMain.Scripts.Procedure
             Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), Constant.AssetPriority.SceneAsset, this);
         }
 
-        protected override void OnLeave(IFsm<IProcedureManager> procedureOwner, bool isShutdown)
+        protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
         {
             var Event = GameEntry.GetComponent<EventComponent>();
             
@@ -82,7 +84,7 @@ namespace GameMain.Scripts.Procedure
             base.OnLeave(procedureOwner, isShutdown);
         }
 
-        protected override void OnUpdate(IFsm<IProcedureManager> procedureOwner, float elapseSeconds, float realElapseSeconds)
+        protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
 
