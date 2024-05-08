@@ -17,10 +17,10 @@
             public const int UIFormAsset = 50;
             public const int UISoundAsset = 30;
 
-            public const int MyAircraftAsset = 90;
-            public const int AircraftAsset = 80;
+            public const int PlayerAsset = 90;
+            public const int NPCAsset = 80;
             public const int ThrusterAsset = 30;
-            public const int WeaponAsset = 30;
+            public const int ManagerAsset = 30;
             public const int ArmorAsset = 30;
             public const int BulletAsset = 80;
             public const int AsteroiAsset = 80;

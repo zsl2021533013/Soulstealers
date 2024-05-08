@@ -21,5 +21,10 @@
         {
             return GameFramework.Utility.Text.Format("Assets/GameMain/UI/UIForms/{0}.prefab", assetName);
         }
+        
+        public static string GetEntityAsset(string assetName)
+        {
+            return GameFramework.Utility.Text.Format("Assets/GameMain/Entities/{0}.prefab", assetName);
+        }
     }
 }

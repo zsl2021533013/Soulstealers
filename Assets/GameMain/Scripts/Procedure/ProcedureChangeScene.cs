@@ -4,6 +4,7 @@ using GameFramework.Fsm;
 using GameFramework.Procedure;
 using GameMain.Scripts.DataTable;
 using GameMain.Scripts.Definition.Constant;
+using UnityEngine;
 using UnityGameFramework.Runtime;
 
 using AssetUtility = GameMain.Scripts.Utility.AssetUtility;

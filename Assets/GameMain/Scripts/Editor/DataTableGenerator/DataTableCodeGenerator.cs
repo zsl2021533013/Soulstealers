@@ -7,7 +7,7 @@
 
 using System.Text;
 
-namespace StarForce.Editor.DataTableTools
+namespace GameMain.Scripts.Editor.DataTableGenerator
 {
     public delegate void DataTableCodeGenerator(DataTableProcessor dataTableProcessor, StringBuilder codeContent, object userData);
 }

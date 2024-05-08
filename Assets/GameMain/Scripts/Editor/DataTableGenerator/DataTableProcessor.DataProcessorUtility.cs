@@ -5,12 +5,12 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using GameFramework;
 
-namespace StarForce.Editor.DataTableTools
+namespace GameMain.Scripts.Editor.DataTableGenerator
 {
     public sealed partial class DataTableProcessor
     {
@@ -54,7 +54,7 @@ namespace StarForce.Editor.DataTableTools
                     return dataProcessor;
                 }
 
-                throw new GameFrameworkException(Utility.Text.Format("Not supported data processor type '{0}'.", type));
+                throw new GameFrameworkException(GameFramework.Utility.Text.Format("Not supported data processor type '{0}'.", type));
             }
         }
     }

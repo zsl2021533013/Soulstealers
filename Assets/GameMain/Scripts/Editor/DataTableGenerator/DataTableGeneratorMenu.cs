@@ -5,24 +5,23 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework;
 using GameMain.Scripts.Procedure;
 using UnityEditor;
 using UnityEngine;
 
-namespace StarForce.Editor.DataTableTools
+namespace GameMain.Scripts.Editor.DataTableGenerator
 {
     public sealed class DataTableGeneratorMenu
     {
         [MenuItem("Tools/Soulstealers/Generate DataTables")]
         private static void GenerateDataTables()
         {
-            foreach (string dataTableName in ProcedurePreload.DataTableNames)
+            foreach (var dataTableName in ProcedurePreload.DataTableNames)
             {
                 DataTableProcessor dataTableProcessor = DataTableGenerator.CreateDataTableProcessor(dataTableName);
                 if (!DataTableGenerator.CheckRawData(dataTableProcessor, dataTableName))
                 {
-                    Debug.LogError(Utility.Text.Format("Check raw data failure. DataTableName='{0}'", dataTableName));
+                    Debug.LogError(GameFramework.Utility.Text.Format("Check raw data failure. DataTableName='{0}'", dataTableName));
                     break;
                 }
 

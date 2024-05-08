@@ -10,32 +10,22 @@ namespace GameMain.Scripts.Procedure
 {
     public class ProcedureMain : ProcedureBase
     {
-        private const float GameOverDelayedSeconds = 2f;
-
-        private GameBase m_CurrentGame = null;
-        private bool m_GotoMenu = false;
-        private float m_GotoMenuDelaySeconds = 0f;
-
-        public void GotoMenu()
-        {
-            m_GotoMenu = true; 
-        }
+        private GameBase currentGame = null;
         
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
 
-            m_GotoMenu = false;
-            m_CurrentGame = new DetectGame();
-            m_CurrentGame.Initialize();
+            currentGame = new SoulstealersGame();
+            currentGame.Initialize();
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
         {
-            if (m_CurrentGame != null)
+            if (currentGame != null)
             {
-                m_CurrentGame.Shutdown();
-                m_CurrentGame = null;
+                currentGame.Shutdown();
+                currentGame = null;
             }
 
             base.OnLeave(procedureOwner, isShutdown);
@@ -45,24 +35,9 @@ namespace GameMain.Scripts.Procedure
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
 
-            if (m_CurrentGame is { GameOver: false })
+            if (currentGame is { GameOver: false })
             {
-                m_CurrentGame.Update(elapseSeconds, realElapseSeconds);
-                return;
-            }
-
-            if (!m_GotoMenu)
-            {
-                m_GotoMenu = true;
-                m_GotoMenuDelaySeconds = 0;
-            }
-
-            m_GotoMenuDelaySeconds += elapseSeconds;
-            if (m_GotoMenuDelaySeconds >= GameOverDelayedSeconds)
-            {
-                var Config = GameEntry.GetComponent<ConfigComponent>();
-                procedureOwner.SetData<VarInt32>("NextSceneId", Config.GetInt("Scene.Menu"));
-                ChangeState<ProcedureChangeScene>(procedureOwner);
+                currentGame.Update(elapseSeconds, realElapseSeconds);
             }
         }
     }

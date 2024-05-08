@@ -6,8 +6,8 @@ namespace GameMain.Scripts.UI
 {
     public class MenuForm : UGuiForm
     {
-        [SerializeField]
-        private GameObject m_QuitButton = null;
+        /*[SerializeField]
+        private GameObject m_QuitButton = null;*/
 
         private ProcedureMenu m_ProcedureMenu = null;
 

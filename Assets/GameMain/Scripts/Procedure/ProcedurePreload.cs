@@ -15,7 +15,8 @@ namespace GameMain.Scripts.Procedure
         public static readonly string[] DataTableNames = new string[]
         {
             "Scene",
-            "UIForm"
+            "UIForm",
+            "Entity"
         };
 
         private Dictionary<string, bool> m_LoadedFlag = new Dictionary<string, bool>();
