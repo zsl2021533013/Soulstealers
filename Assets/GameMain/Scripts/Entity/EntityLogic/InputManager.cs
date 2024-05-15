@@ -3,6 +3,7 @@ using GameFramework.Event;
 using GameMain.Scripts.Event;
 using GameMain.Scripts.Utility;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityGameFramework.Runtime;
@@ -16,6 +17,9 @@ namespace GameMain.Scripts.Entity.EntityLogic
             Ground,
             UI
         }
+
+        [SerializeField] 
+        private GameObject moveTarget;
 
         private Player player;
         private NPC dialogueTarget;
@@ -57,6 +61,16 @@ namespace GameMain.Scripts.Entity.EntityLogic
                 }
             });
             
+            moveTarget.OnTriggerEnterAsObservable()
+                .Subscribe(col =>
+                {
+                    if(col.transform.CompareTag("Player")) 
+                    {
+                        moveTarget.SetActive(false);
+                    }
+                })
+                .AddTo(this);
+            moveTarget.SetActive(false);
         }
 
         protected override void OnHide(bool isShutdown, object userData)
@@ -95,11 +109,17 @@ namespace GameMain.Scripts.Entity.EntityLogic
                                 Player.SetDestination(dialogueTarget.GetDialoguePoint());
 
                                 isReady2Dialogue.Value = true;
+
+                                moveTarget.transform.position = dialogueTarget.GetDialoguePoint() + 0.1f * Vector3.up;
+                                moveTarget.SetActive(true);
                             }
 
                             if (hit.collider.CompareTag("Ground"))
                             {
                                 Player.SetDestination(hit.point);
+                                
+                                moveTarget.transform.position = hit.point + 0.1f * Vector3.up;
+                                moveTarget.SetActive(true);
                             }
                         }
 
@@ -117,7 +137,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
             var ne = (PlayerArriveEventArgs)e;
 
             Player.transform.DOLookAt(dialogueTarget.transform.position, 1f);
-            dialogueTarget.StartDialogue(Player.transform);
+            dialogueTarget.StartDialogue();
         }
     }
 }

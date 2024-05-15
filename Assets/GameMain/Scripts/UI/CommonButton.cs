@@ -1,76 +1,65 @@
 ﻿using DG.Tweening;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GameMain.Scripts.UI
 {
-    public class CommonButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+    public class CommonButton : Button, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
     {
-        private const float FadeTime = 0.3f;
-        private const float OnHoverAlpha = 0.7f;
-        private const float OnClickAlpha = 0.6f;
+        private const float FadeTime = 0.6f;
+        
+        private CanvasGroup canvasGroup = null;
 
-        [SerializeField]
-        private UnityEvent m_OnHover = null;
-
-        [SerializeField]
-        private UnityEvent m_OnClick = null;
-
-        private CanvasGroup m_CanvasGroup = null;
-
-        private void Awake()
+        protected override void Awake()
         {
-            m_CanvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+            canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
+            
+            onClick.AsObservable().Subscribe(unit => DoStateTransition(SelectionState.Highlighted, false));
         }
 
-        private void OnDisable()
+        public void Show()
         {
-            m_CanvasGroup.alpha = 1f;
+            canvasGroup.DOKill();
+            canvasGroup.DOFade(1f, FadeTime);
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public void Hide()
         {
-            if (eventData.button != PointerEventData.InputButton.Left)
+            canvasGroup.DOKill();
+            canvasGroup.DOFade(0f, FadeTime);
+        }
+
+        public void ShowImmediately()
+        {
+            canvasGroup.alpha = 1f;
+        }
+        
+        public void HideImmediately()
+        {
+            canvasGroup.alpha = 0f;
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            base.OnPointerEnter(eventData);
+            
+            if (interactable)
             {
-                return;
+                DoStateTransition(SelectionState.Highlighted, true);
             }
-
-            m_CanvasGroup.DOKill();
-            m_CanvasGroup.DOFade(OnHoverAlpha, FadeTime);
-            m_OnHover.Invoke();
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public override void OnPointerExit(PointerEventData eventData)
         {
-            if (eventData.button != PointerEventData.InputButton.Left)
+            base.OnPointerExit(eventData);
+            
+            if (interactable)
             {
-                return;
+                DoStateTransition(SelectionState.Normal, true);
             }
-
-            m_CanvasGroup.DOKill();
-            m_CanvasGroup.DOFade(1f, FadeTime);
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (eventData.button != PointerEventData.InputButton.Left)
-            {
-                return;
-            }
-
-            m_CanvasGroup.alpha = OnClickAlpha;
-            m_OnClick.Invoke();
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            if (eventData.button != PointerEventData.InputButton.Left)
-            {
-                return;
-            }
-
-            m_CanvasGroup.alpha = OnHoverAlpha;
         }
     }
 }

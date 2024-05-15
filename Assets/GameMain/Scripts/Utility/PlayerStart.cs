@@ -22,7 +22,7 @@ namespace GameMain.Scripts.Utility
                 Gizmos.color = Color.white;
 
                 // 绘制指定纹理作为Gizmos图标，位于物体的位置上
-                Gizmos.DrawIcon(transform.position, fullPath, true);
+                Gizmos.DrawIcon(transform.position + Vector3.up, fullPath, true);
             }
             else
             {

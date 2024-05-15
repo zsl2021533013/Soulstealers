@@ -9,7 +9,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
     public class CameraManager : Entity
     {
         [SerializeField] 
-        private CinemachineFreeLook camera;
+        private CinemachineFreeLook cam;
 
         [SerializeField] 
         private CinemachineInputProvider inputProvider;
@@ -21,8 +21,8 @@ namespace GameMain.Scripts.Entity.EntityLogic
             var Entity = GameEntry.GetComponent<EntityComponent>();
             var player = Entity.GetEntity(AssetUtility.GetEntityAsset("Player")).Logic as Player;
 
-            camera.LookAt = player.transform;
-            camera.Follow = player.transform;
+            cam.LookAt = player.transform;
+            cam.Follow = player.transform;
         }
     }
 }

@@ -142,9 +142,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 6, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 1
+  m_YDamping: 1
+  m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -384,7 +384,7 @@ MonoBehaviour:
     m_TypeId: 0
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0, w: 0}
-  camera: {fileID: 4432529611980169674}
+  cam: {fileID: 4432529611980169674}
   inputProvider: {fileID: 4432529611980169673}
 --- !u!1 &4432529612038802289
 GameObject:
@@ -410,7 +410,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4432529612038802289}
-  m_LocalRotation: {x: 1.5271873e-10, y: -0.69561434, z: 0.7184154, w: -0.000000009471061}
+  m_LocalRotation: {x: -2.774132e-10, y: -0.6956144, z: 0.7184154, w: 0.000000017204142}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -524,9 +524,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 6, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 1
+  m_YDamping: 1
+  m_ZDamping: 1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -615,7 +615,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4432529612526037216}
-  m_LocalRotation: {x: 0.0000000012653132, y: -0.7357377, z: 0.6772667, w: -0.000000017159792}
+  m_LocalRotation: {x: -0.0000000012653141, y: -0.7357377, z: 0.67726666, w: 0.000000017159794}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -729,9 +729,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 6, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.1
+  m_YDamping: 0.1
+  m_ZDamping: 0.1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -820,7 +820,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4432529612777292476}
-  m_LocalRotation: {x: -7.7360074e-10, y: -0.7160382, z: 0.6980611, w: 0.000000017195244}
+  m_LocalRotation: {x: 7.733205e-10, y: -0.7160382, z: 0.6980611, w: -0.000000017188999}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

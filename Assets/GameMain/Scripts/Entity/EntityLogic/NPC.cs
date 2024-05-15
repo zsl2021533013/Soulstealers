@@ -1,5 +1,5 @@
 ﻿using GameMain.Scripts.Utility;
-using PixelCrushers.DialogueSystem.Wrappers;
+using NodeCanvas.DialogueTrees;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -8,7 +8,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
     public class NPC : Entity
     {
         [SerializeField]
-        private DialogueSystemTrigger trigger;
+        private DialogueTreeController controller;
 
         [SerializeField] 
         private Transform dialoguePoint;
@@ -29,9 +29,9 @@ namespace GameMain.Scripts.Entity.EntityLogic
             }
         }
 
-        public void StartDialogue(Transform actor)
+        public void StartDialogue()
         {
-            trigger.OnUse(actor);
+            controller.StartDialogue();
         }
 
         public Vector3 GetDialoguePoint()

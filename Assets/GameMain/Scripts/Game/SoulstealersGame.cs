@@ -6,6 +6,8 @@ using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Utility;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UIElements;
 using UnityGameFramework.Runtime;
 
 namespace GameMain.Scripts.Game
@@ -33,16 +35,6 @@ namespace GameMain.Scripts.Game
                 {
                     Name = "Player",
                     Position = playerStart.transform.position,
-                });
-            
-            Entity.ShowEntity(
-                typeof(NPC), 
-                "NPCs", 
-                Constant.AssetPriority.NPCAsset,
-                new NPCData(Entity.GenerateSerialId(), Constant.EntityId.NPC)
-                {
-                    Name = "NPC",
-                    Position = new Vector3(0, 0, 4)
                 });
             
             Entity.ShowEntity(
