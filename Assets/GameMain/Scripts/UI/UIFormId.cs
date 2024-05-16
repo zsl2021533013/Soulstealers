@@ -8,23 +8,18 @@
         Undefined = 0,
 
         /// <summary>
-        /// 弹出框。
-        /// </summary>
-        DialogForm = 1,
-
-        /// <summary>
-        /// 主菜单。
+        /// 主菜单
         /// </summary>
         MenuForm = 100,
 
         /// <summary>
-        /// 设置。
+        /// 转场淡入淡出
         /// </summary>
-        SettingForm = 101,
-
+        SceneChangeForm = 101,
+        
         /// <summary>
-        /// 关于。
+        /// 对话UI
         /// </summary>
-        AboutForm = 102,
+        DialogueForm = 200
     }
 }

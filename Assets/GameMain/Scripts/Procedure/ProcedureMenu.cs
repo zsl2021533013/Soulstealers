@@ -10,12 +10,12 @@ namespace GameMain.Scripts.Procedure
 {
     public class ProcedureMenu : ProcedureBase
     {
-        private bool m_StartGame = false;
-        private MenuForm m_MenuForm = null;
+        private bool startGame = false;
+        private MenuForm menuForm = null;
 
         public void StartGame()
         {
-            m_StartGame = true;
+            startGame = true;
         }
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
@@ -27,7 +27,7 @@ namespace GameMain.Scripts.Procedure
 
             Event.Subscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenUIFormSuccess);
 
-            m_StartGame = false;
+            startGame = false;
             UI.OpenUIForm(UIFormId.MenuForm, this);
         }
 
@@ -39,10 +39,10 @@ namespace GameMain.Scripts.Procedure
 
             Event.Unsubscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenUIFormSuccess);
 
-            if (m_MenuForm != null)
+            if (menuForm != null)
             {
-                m_MenuForm.Close(isShutdown);
-                m_MenuForm = null;
+                menuForm.Close(isShutdown);
+                menuForm = null;
             }
         }
 
@@ -50,7 +50,7 @@ namespace GameMain.Scripts.Procedure
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
 
-            if (m_StartGame)
+            if (startGame)
             {
                 var Config = GameEntry.GetComponent<ConfigComponent>();
                 procedureOwner.SetData<VarInt32>("NextSceneId", Config.GetInt("Scene.Main"));
@@ -66,7 +66,10 @@ namespace GameMain.Scripts.Procedure
                 return;
             }
 
-            m_MenuForm = (MenuForm)ne.UIForm.Logic;
+            if (ne.UIForm.Logic is MenuForm form)
+            {
+                menuForm = form;
+            }
         }
     }
 }

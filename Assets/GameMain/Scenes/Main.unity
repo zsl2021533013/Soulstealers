@@ -704,14 +704,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magistrate Ruan
       objectReference: {fileID: 0}
-    - target: {fileID: 8939204041608970419, guid: 8ca7ea43389a24b42bb1f8ea1c157b48, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9041921632361989510, guid: 8ca7ea43389a24b42bb1f8ea1c157b48, type: 3}
-      propertyPath: conversation
-      value: "\u962E\u53BF\u957F"
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ca7ea43389a24b42bb1f8ea1c157b48, type: 3}
 --- !u!1001 &7295238855334368282

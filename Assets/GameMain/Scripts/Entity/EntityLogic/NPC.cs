@@ -31,7 +31,10 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public void StartDialogue()
         {
-            controller.StartDialogue();
+            if (!controller.isRunning)
+            {
+                controller.StartDialogue();
+            }
         }
 
         public Vector3 GetDialoguePoint()

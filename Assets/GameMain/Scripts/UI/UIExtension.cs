@@ -49,7 +49,6 @@ namespace GameMain.Scripts.UI
             }
 
             return uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName, Constant.AssetPriority.UIFormAsset, drUIForm.PauseCoveredUIForm, userData);
-            
         }
     }
 }

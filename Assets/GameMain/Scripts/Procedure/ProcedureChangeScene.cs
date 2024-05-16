@@ -1,9 +1,9 @@
 ﻿using GameFramework.DataTable;
 using GameFramework.Event;
-using GameFramework.Fsm;
 using GameFramework.Procedure;
 using GameMain.Scripts.DataTable;
 using GameMain.Scripts.Definition.Constant;
+using GameMain.Scripts.UI;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -16,14 +16,15 @@ namespace GameMain.Scripts.Procedure
     {
         private const int MenuSceneId = 1;
 
-        private bool m_ChangeToMenu = false;
-        private bool m_IsChangeSceneComplete = false;
+        private bool changeToMenu = false;
+        private bool isChangeSceneComplete = false;
+        private SceneChangeForm sceneChangeForm;
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
 
-            m_IsChangeSceneComplete = false;
+            isChangeSceneComplete = false;
 
             var Event = GameEntry.GetComponent<EventComponent>();
 
@@ -31,6 +32,16 @@ namespace GameMain.Scripts.Procedure
             Event.Subscribe(LoadSceneFailureEventArgs.EventId, OnLoadSceneFailure);
             Event.Subscribe(LoadSceneUpdateEventArgs.EventId, OnLoadSceneUpdate);
             Event.Subscribe(LoadSceneDependencyAssetEventArgs.EventId, OnLoadSceneDependencyAsset);
+            Event.Subscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenUIFormSuccess);
+            
+            var UI = GameEntry.GetComponent<UIComponent>();
+            sceneChangeForm = UI.GetUIForm(AssetUtility.GetUIFormAsset("SceneChangeForm"))?.Logic as SceneChangeForm;
+            if (sceneChangeForm == null)
+            {
+                UI.OpenUIForm(UIFormId.MenuForm, this);
+            }
+            
+            sceneChangeForm?.FadeOut();
             
             var Sound = GameEntry.GetComponent<SoundComponent>();
 
@@ -61,7 +72,7 @@ namespace GameMain.Scripts.Procedure
             var DataTable = GameEntry.GetComponent<DataTableComponent>();
 
             int sceneId = procedureOwner.GetData<VarInt32>("NextSceneId");
-            m_ChangeToMenu = sceneId == MenuSceneId;
+            changeToMenu = sceneId == MenuSceneId;
             IDataTable<DRScene> dtScene = DataTable.GetDataTable<DRScene>();
             DRScene drScene = dtScene.GetDataRow(sceneId);
             if (drScene == null)
@@ -71,6 +82,8 @@ namespace GameMain.Scripts.Procedure
             }
 
             Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), Constant.AssetPriority.SceneAsset, this);
+            
+            sceneChangeForm?.FadeIn();
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
@@ -81,6 +94,7 @@ namespace GameMain.Scripts.Procedure
             Event.Unsubscribe(LoadSceneFailureEventArgs.EventId, OnLoadSceneFailure);
             Event.Unsubscribe(LoadSceneUpdateEventArgs.EventId, OnLoadSceneUpdate);
             Event.Unsubscribe(LoadSceneDependencyAssetEventArgs.EventId, OnLoadSceneDependencyAsset);
+            Event.Unsubscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenUIFormSuccess);
 
             base.OnLeave(procedureOwner, isShutdown);
         }
@@ -89,12 +103,12 @@ namespace GameMain.Scripts.Procedure
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
 
-            if (!m_IsChangeSceneComplete)
+            if (!isChangeSceneComplete)
             {
                 return;
             }
 
-            if (m_ChangeToMenu)
+            if (changeToMenu)
             {
                 ChangeState<ProcedureMenu>(procedureOwner);
             }
@@ -114,7 +128,7 @@ namespace GameMain.Scripts.Procedure
 
             Log.Info("Load scene '{0}' OK.", ne.SceneAssetName);
 
-            m_IsChangeSceneComplete = true;
+            isChangeSceneComplete = true;
         }
 
         private void OnLoadSceneFailure(object sender, GameEventArgs e)
@@ -147,7 +161,22 @@ namespace GameMain.Scripts.Procedure
                 return;
             }
 
-            Log.Info("Load scene '{0}' dependency asset '{1}', count '{2}/{3}'.", ne.SceneAssetName, ne.DependencyAssetName, ne.LoadedCount.ToString(), ne.TotalCount.ToString());
+            Log.Info("Load scene '{0}' dependency asset '{1}', count '{2}/{3}'.", ne.SceneAssetName,
+                ne.DependencyAssetName, ne.LoadedCount.ToString(), ne.TotalCount.ToString());
+        }
+        
+        private void OnOpenUIFormSuccess(object sender, GameEventArgs e)
+        {
+            OpenUIFormSuccessEventArgs ne = (OpenUIFormSuccessEventArgs)e;
+            if (ne.UserData != this)
+            {
+                return;
+            }
+
+            if (ne.UIForm.Logic is SceneChangeForm form)
+            {
+                sceneChangeForm = form;
+            }
         }
     }
 }

@@ -135,7 +135,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
         private void OnPlayerArrive(object sender, GameEventArgs e)
         {
             var ne = (PlayerArriveEventArgs)e;
-
+            
             Player.transform.DOLookAt(dialogueTarget.transform.position, 1f);
             dialogueTarget.StartDialogue();
         }

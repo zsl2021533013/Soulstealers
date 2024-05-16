@@ -3,6 +3,7 @@ using GameFramework.Event;
 using GameFramework.Fsm;
 using GameFramework.Procedure;
 using GameMain.Scripts.DataTable;
+using GameMain.Scripts.UI;
 using GameMain.Scripts.Utility;
 using UnityGameFramework.Runtime;
 
@@ -33,7 +34,7 @@ namespace GameMain.Scripts.Procedure
             Event.Subscribe(LoadDataTableFailureEventArgs.EventId, OnLoadDataTableFailure);
 
             m_LoadedFlag.Clear();
-
+            
             PreloadResources();
         }
 
