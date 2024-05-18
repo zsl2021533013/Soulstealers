@@ -1,7 +1,4 @@
-﻿using GameFramework.Event;
-using UnityGameFramework.Runtime;
-
-namespace GameMain.Scripts.Game
+﻿namespace GameMain.Scripts.Game
 {
     public abstract class GameBase
     {
@@ -15,6 +12,8 @@ namespace GameMain.Scripts.Game
 
         public virtual void Shutdown() { }
 
-        public virtual void Update(float elapseSeconds, float realElapseSeconds) { }
+        public virtual void Update(float elapse) { }
+        
+        public virtual void FixedUpdate(float elapse) { }
     }
 }
