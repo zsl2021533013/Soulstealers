@@ -9,6 +9,7 @@ namespace GameMain.Scripts
         protected override void Init()
         {
             RegisterModel(new PlayerModel());
+            RegisterModel(new TaskModel());
         }
     }
 }

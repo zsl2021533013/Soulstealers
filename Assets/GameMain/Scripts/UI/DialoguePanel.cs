@@ -146,7 +146,7 @@ namespace GameMain.Scripts.UI
             subtitlesGroup.gameObject.SetActive(true);
             optionsGroup.gameObject.SetActive(false);
             actorPortrait.gameObject.SetActive(true);
-            Debug.Log(1);
+            
             var text = info.statement.text;
             var audio = info.statement.audio;
             var actor = info.actor;

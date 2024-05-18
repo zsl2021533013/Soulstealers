@@ -21,5 +21,10 @@
         {
             return $"Prefabs/Characters/{assetName}";
         }
+        
+        public static string GetSOAsset(string assetName)
+        {
+            return $"ScriptableObjects/{assetName}";
+        }
     }
 }

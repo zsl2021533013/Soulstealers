@@ -9,6 +9,7 @@ using QFramework;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace GameMain.Scripts.Entity.EntityLogic
 {
@@ -17,6 +18,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
         public enum MouseInteractType
         {
             Ground,
+            Dialogue,
             UI
         }
 
@@ -99,7 +101,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         private void UpdateMouse()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 isReady2Dialogue.Value = false;
                 dialogueTarget = null;
@@ -134,7 +136,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
                         }
 
                         break;
-                    case MouseInteractType.UI:
+                    case MouseInteractType.Dialogue:
                         break;
                     default:
                         break;

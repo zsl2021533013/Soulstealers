@@ -39,12 +39,18 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public void OnDialogueStarted(DialogueTree dlg)
         {
-            InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.UI;
+            if (InputManager.Instance.mouseInteractType.Value == InputManager.MouseInteractType.Ground)
+            {
+                InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.Dialogue;
+            }
         }
         
         public void OnDialogueFinished(DialogueTree dlg)
         {
-            InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.Ground;
+            if (InputManager.Instance.mouseInteractType.Value == InputManager.MouseInteractType.Dialogue)
+            {
+                InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.Ground;
+            }
         }
 
         public IArchitecture GetArchitecture()

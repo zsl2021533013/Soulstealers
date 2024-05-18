@@ -2,7 +2,9 @@
 using GameMain.Scripts.Controller;
 using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Model;
+using GameMain.Scripts.UI;
 using GameMain.Scripts.Utility;
+using NodeCanvas.DialogueTrees;
 using QFramework;
 using UnityEngine;
 
@@ -16,9 +18,9 @@ namespace GameMain.Scripts.Game
         public override void Initialize()
         {
             base.Initialize();
-            
-            UIKit.Root.ScreenSpaceOverlayRenderMode();
-            UIKit.Root.SetResolution(1920, 1080, 0.5f);
+
+            var panel = UIKit.OpenPanel<SceneChangePanel>();
+            panel.FadeOut();
 
             LoadManager();
             
@@ -26,6 +28,9 @@ namespace GameMain.Scripts.Game
 
             managers.ForEach(manager => manager.OnGameInit());
             characters.ForEach(character => character.OnGameInit());
+            
+            var opening = Resources.Load<GameObject>(AssetUtility.GetCharacterAsset("Opening")).Instantiate();
+            opening.GetComponent<NPCController>().StartDialogue();
         }
 
         public override void Update(float elapse)

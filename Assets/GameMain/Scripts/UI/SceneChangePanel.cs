@@ -22,13 +22,13 @@ namespace GameMain.Scripts.UI
             
         }
 
-        public void FadeIn(Action endAction)
+        public void FadeIn(Action endAction = null)
         {
             canvasGroup.DOKill();
             canvasGroup.DOFade(0f, FadeTime).OnComplete(() => endAction?.Invoke());
         }
 
-        public void FadeOut(Action endAction)
+        public void FadeOut(Action endAction = null)
         {
             canvasGroup.DOKill();
             canvasGroup.DOFade(1f, FadeTime).OnComplete(() => endAction?.Invoke());

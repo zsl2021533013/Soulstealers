@@ -53,6 +53,8 @@ namespace GameMain.Scripts.Procedure
             base.OnEnter();
             
             UIKit.Config.PanelLoaderPool = new ResourcesPanelLoaderPool();
+            UIKit.Root.ScreenSpaceOverlayRenderMode();
+            UIKit.Root.SetResolution(1920, 1080, 0.5f);
             
             ChangeSceneState.nextState = ProcedureStates.Menu;
             ChangeSceneState.nextSceneName = "MainMenu";
