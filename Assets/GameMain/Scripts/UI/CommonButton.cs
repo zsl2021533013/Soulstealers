@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using QFramework;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -34,11 +35,13 @@ namespace GameMain.Scripts.UI
 
         public void ShowImmediately()
         {
+            canvasGroup.DOKill();
             canvasGroup.alpha = 1f;
         }
         
         public void HideImmediately()
         {
+            canvasGroup.DOKill();
             canvasGroup.alpha = 0f;
         }
 

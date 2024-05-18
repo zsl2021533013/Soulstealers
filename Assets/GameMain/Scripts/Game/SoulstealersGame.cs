@@ -1,82 +1,87 @@
-﻿using GameFramework.Event;
-using GameMain.Scripts.Definition.Constant;
-using GameMain.Scripts.Entity;
-using GameMain.Scripts.Entity.EntityData;
+﻿using System.Collections.Generic;
+using GameMain.Scripts.Controller;
 using GameMain.Scripts.Entity.EntityLogic;
+using GameMain.Scripts.Model;
 using GameMain.Scripts.Utility;
-using Unity.VisualScripting;
+using QFramework;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UIElements;
-using UnityGameFramework.Runtime;
 
 namespace GameMain.Scripts.Game
 {
-    public class SoulstealersGame : GameBase
+    public class SoulstealersGame : GameBase, IController
     {
+        private List<ISoulstealersGameController> managers = new List<ISoulstealersGameController>();
+        private List<ISoulstealersGameController> characters = new List<ISoulstealersGameController>();
+        
         public override void Initialize()
         {
             base.Initialize();
             
-            var Event = GameEntry.GetComponent<EventComponent>();
-            
-            Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
-            Event.Subscribe(ShowEntityFailureEventArgs.EventId, OnShowEntityFailure);
+            UIKit.Root.ScreenSpaceOverlayRenderMode();
+            UIKit.Root.SetResolution(1920, 1080, 0.5f);
 
-            var playerStart = Object.FindObjectOfType<PlayerStart>();
+            LoadManager();
+            
+            LoadCharacter();
 
-            var Entity = GameEntry.GetComponent<EntityComponent>();
-            
-            Entity.ShowEntity(
-                typeof(Player), 
-                "Player", 
-                Constant.AssetPriority.PlayerAsset,
-                new PlayerData(Entity.GenerateSerialId(), Constant.EntityId.Player)
-                {
-                    Name = "Player",
-                    Position = playerStart.transform.position,
-                });
-            
-            Entity.ShowEntity(
-                typeof(InputManager), 
-                "Managers", 
-                Constant.AssetPriority.ManagerAsset,
-                new EntityData(Entity.GenerateSerialId(), Constant.EntityId.InputManager));
-            
-            Entity.ShowEntity(
-                typeof(DialogueManager), 
-                "Managers", 
-                Constant.AssetPriority.ManagerAsset,
-                new EntityData(Entity.GenerateSerialId(), Constant.EntityId.DialogueManager));
-            
-            Entity.ShowEntity(
-                typeof(CameraManager), 
-                "Managers", 
-                Constant.AssetPriority.ManagerAsset,
-                new EntityData(Entity.GenerateSerialId(), Constant.EntityId.CameraManager));
-            
-            GameOver = false;
+            managers.ForEach(manager => manager.OnGameInit());
+            characters.ForEach(character => character.OnGameInit());
         }
-        
+
+        public override void Update(float elapse)
+        {
+            base.Update(elapse);
+            
+            managers.ForEach(manager => manager.OnUpdate(elapse));
+            characters.ForEach(character => character.OnUpdate(elapse));
+        }
+
+        public override void FixedUpdate(float elapse)
+        {
+            base.FixedUpdate(elapse);
+            
+            managers.ForEach(manager => manager.OnFixedUpdate(elapse));
+            characters.ForEach(character => character.OnFixedUpdate(elapse));
+        }
+
         public override void Shutdown()
         {
             base.Shutdown();
             
-            var Event = GameEntry.GetComponent<EventComponent>();
+            managers.ForEach(manager => manager.OnGameShutdown());
+            characters.ForEach(character => character.OnGameShutdown());
+        }
+        
+        private void LoadManager()
+        {
+            var managerHolder = new GameObject("Manager Holder");
+            managerHolder.DontDestroyOnLoad();
             
-            Event.Unsubscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
-            Event.Unsubscribe(ShowEntityFailureEventArgs.EventId, OnShowEntityFailure);
+            var managerAssets = Resources.LoadAll<GameObject>(AssetUtility.GetManagerAsset(""));
+            foreach (var manager in managerAssets)
+            {
+                var m = Object.Instantiate(manager, managerHolder.transform);
+                managers.Add(m.GetComponent<ISoulstealersGameController>());
+            }
         }
 
-        protected void OnShowEntitySuccess(object sender, GameEventArgs e)
+        private void LoadCharacter()
         {
-            ShowEntitySuccessEventArgs ne = (ShowEntitySuccessEventArgs)e;
+            var startPoint = Object.FindObjectOfType<PlayerStart>().transform;
+            
+            var player = Resources.Load<GameObject>(AssetUtility.GetCharacterAsset("Player"));
+            var c = player.Instantiate(startPoint.position, Quaternion.identity);
+            
+            characters.Add(c.GetComponent<ISoulstealersGameController>());
+            
+            this.GetModel<PlayerModel>().transform = c.transform;
+            this.GetModel<PlayerModel>().cameraPoint = c.transform.Find("Camera Point");
+            this.GetModel<PlayerModel>().controller = c.GetComponent<PlayerController>();
         }
 
-        protected void OnShowEntityFailure(object sender, GameEventArgs e)
+        public IArchitecture GetArchitecture()
         {
-            ShowEntityFailureEventArgs ne = (ShowEntityFailureEventArgs)e;
-            Log.Warning("Show entity failure with error message '{0}'.", ne.ErrorMessage);
+            return Soulstealers.Interface;
         }
     }
 }
