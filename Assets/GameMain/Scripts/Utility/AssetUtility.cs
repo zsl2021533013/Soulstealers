@@ -26,5 +26,10 @@
         {
             return $"ScriptableObjects/{assetName}";
         }
+        
+        public static string GetCursorAsset(string assetName)
+        {
+            return $"Sprites/Cursor/{assetName}";
+        }
     }
 }

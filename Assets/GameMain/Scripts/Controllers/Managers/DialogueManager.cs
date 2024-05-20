@@ -4,16 +4,46 @@ using GameMain.Scripts.UI;
 using GameMain.Scripts.Utility;
 using NodeCanvas.DialogueTrees;
 using QFramework;
+using UniRx;
 
 namespace GameMain.Scripts.Entity.EntityLogic
 {
+    public enum DialogueState
+    {
+        Open,
+        Close
+    }
+    
     public class DialogueManager : MonoSingleton<DialogueManager>, ISoulstealersGameController
     {
+        public ReactiveProperty<DialogueState> dialogueState = new ReactiveProperty<DialogueState>();
+
+        private DialoguePanel panel;
+        
         public void OnGameInit()
         {
             Subscribe();
             
-            UIKit.OpenPanel<DialoguePanel>();
+            panel = UIKit.OpenPanel<DialoguePanel>();
+
+            dialogueState.Subscribe(value =>
+            {
+                if (value == DialogueState.Open)
+                {
+                    if (InputManager.Instance.mouseInteractType.Value == InputManager.MouseInteractType.Ground)
+                    {
+                        InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.Dialogue;
+                    }
+                }
+
+                if (value == DialogueState.Close)
+                {
+                    if (InputManager.Instance.mouseInteractType.Value == InputManager.MouseInteractType.Dialogue)
+                    {
+                        InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.Ground;
+                    }
+                }
+            });
         }
 
         public void OnUpdate(float elapse) { }
@@ -39,17 +69,19 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public void OnDialogueStarted(DialogueTree dlg)
         {
-            if (InputManager.Instance.mouseInteractType.Value == InputManager.MouseInteractType.Ground)
-            {
-                InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.Dialogue;
-            }
+            dialogueState.Value = DialogueState.Open;
         }
         
         public void OnDialogueFinished(DialogueTree dlg)
         {
-            if (InputManager.Instance.mouseInteractType.Value == InputManager.MouseInteractType.Dialogue)
+            dialogueState.Value = DialogueState.Close;
+        }
+
+        public void SkipDialogue()
+        {
+            if (dialogueState.Value == DialogueState.Open)
             {
-                InputManager.Instance.mouseInteractType.Value = InputManager.MouseInteractType.Ground;
+                panel.SkipDialogue();
             }
         }
 

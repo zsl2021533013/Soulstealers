@@ -2,6 +2,7 @@
 using DG.Tweening;
 using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Scriptable_Object;
+using GameMain.Scripts.Utility;
 using QFramework;
 using TMPro;
 using UnityEngine;
@@ -88,14 +89,14 @@ namespace GameMain.Scripts.UI
                     var t = Instantiate(activeTaskTemple, activeTaskTemple.transform.parent);
                     t.SetActive(true);
                     activeTaskCache.Add(t);
-                    t.GetComponent<TMP_Text>().text = task.activeText;
+                    t.GetComponent<TMP_Text>().text = task.activeText.Convert2E();
                 }
                 if (task.state == Task.TaskState.Complete)
                 {
                     var t = Instantiate(completeTaskTemple, completeTaskTemple.transform.parent);
                     t.SetActive(true);
                     completeTaskCache.Add(t);
-                    t.GetComponent<TMP_Text>().text = task.completeText;
+                    t.GetComponent<TMP_Text>().text = task.completeText.Convert2E();
                 }
             }
         }

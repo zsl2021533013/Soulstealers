@@ -43,6 +43,9 @@ namespace GameMain.Scripts.UI
         private List<GameObject> cachedSpeechs = new List<GameObject>();
         private Dictionary<CommonButton, int> cachedBtns = new Dictionary<CommonButton, int>();
         private bool isWaitingChoice;
+        
+        private TMP_Text speechTMP;
+        private string speechText;
 
         private AudioSource _localSource;
 
@@ -111,7 +114,8 @@ namespace GameMain.Scripts.UI
             }
         }
 
-        void OnDialogueFinished(DialogueTree dlg) {
+        void OnDialogueFinished(DialogueTree dlg) 
+        {
             HideSubPanel();
 
             if (cachedSpeechs != null)
@@ -151,7 +155,7 @@ namespace GameMain.Scripts.UI
             var audio = info.statement.audio;
             var actor = info.actor;
             
-            text = actor.name + ":\n" + text.Convert2E();
+            speechText = actor.name + ":\n" + text.Convert2E();
 
             questReady = false;
 
@@ -159,12 +163,14 @@ namespace GameMain.Scripts.UI
             cachedSpeechs.Add(actorSpeech);
             actorSpeech.SetActive(true);
             
-            var speechText = actorSpeech.GetComponent<TMP_Text>();
-            speechText.text = new string('口', text.Length);
+            speechTMP = actorSpeech.GetComponent<TMP_Text>();
+            speechTMP.text = speechText;
             
             Canvas.ForceUpdateCanvases();
 
             content.verticalNormalizedPosition = 0f;
+            
+            speechTMP.text = "";
             
             actorPortrait.gameObject.SetActive(actor.portraitSprite != null);
             actorPortrait.sprite = actor.portraitSprite;
@@ -178,8 +184,9 @@ namespace GameMain.Scripts.UI
 
             continueBtn.gameObject.SetActive(true);
             continueBtn.HideImmediately();
-            speechText
-                .DOText(text, subtitleDelays.characterDelay * text.Length)
+            speechTMP.DOKill();
+            speechTMP
+                .DOText(speechText, subtitleDelays.characterDelay * speechText.Length)
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
@@ -228,6 +235,14 @@ namespace GameMain.Scripts.UI
                 
                 index++;
             }
+        }
+
+        public void SkipDialogue()
+        {
+            speechTMP.DOKill();
+            speechTMP.text = speechText;
+            questReady = true;
+            continueBtn.Show();
         }
     }
 }

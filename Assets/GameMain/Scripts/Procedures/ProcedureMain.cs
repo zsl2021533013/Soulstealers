@@ -59,6 +59,9 @@ namespace GameMain.Scripts.Procedure
             ChangeSceneState.nextState = ProcedureStates.Menu;
             ChangeSceneState.nextSceneName = "MainMenu";
             mFSM.ChangeState(ProcedureStates.ChangeScene);
+            
+            var cursorNormal = Resources.Load<Texture2D>(AssetUtility.GetCursorAsset("Normal"));
+            Cursor.SetCursor(cursorNormal, Vector2.zero, CursorMode.Auto);
         }
     }
     

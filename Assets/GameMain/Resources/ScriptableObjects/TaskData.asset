@@ -15,5 +15,9 @@ MonoBehaviour:
   tasks:
   - id: 0
     state: 0
-    activeText: "\u67E5\u770B\u603B\u7763\u5927\u4EBA\u624B\u4FE1"
+    activeText: "\u68C0\u67E5\u623F\u95F4\uFF0C\u56DE\u5FC6\u4F7F\u547D\u3002"
     completeText: "\u603B\u7763\u5927\u4EBA\u8981\u6C42\u6211\u4EEC\u5728\u4E00\u5929\u5185\u67E5\u6E05\u6848\u60C5"
+  - id: 1
+    state: 0
+    activeText: "\u67E5\u6E05\u4EC0\u4E48\u662F\u201C\u53EB\u9B42\u201D\u3002"
+    completeText: 

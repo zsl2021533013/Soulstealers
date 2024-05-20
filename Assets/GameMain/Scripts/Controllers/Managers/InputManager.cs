@@ -22,13 +22,23 @@ namespace GameMain.Scripts.Entity.EntityLogic
             UI
         }
 
+        public enum CursorType
+        {
+            Normal,
+            Select
+        }
+
         [SerializeField] 
         private GameObject moveTarget;
 
         private PlayerController playerController;
         private NPCController dialogueTarget;
+
+        private Texture2D cursorNormal;
+        private Texture2D cursorSelect;
         
         public ReactiveProperty<MouseInteractType> mouseInteractType = new ReactiveProperty<MouseInteractType>();
+        public ReactiveProperty<CursorType> cursorType = new ReactiveProperty<CursorType>();
         public ReactiveProperty<bool> isReady2Dialogue = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> isShowingOutline = new ReactiveProperty<bool>();
 
@@ -65,6 +75,18 @@ namespace GameMain.Scripts.Entity.EntityLogic
                     }
                 }
             });
+
+            cursorType.Subscribe(value =>
+            {
+                if (value == CursorType.Select)
+                {
+                    Cursor.SetCursor(cursorSelect, Vector2.zero, CursorMode.Auto);
+                }
+                else
+                {
+                    Cursor.SetCursor(cursorNormal, Vector2.zero, CursorMode.Auto);
+                }
+            });
             
             moveTarget.UpdateAsObservable()
                 .Subscribe(_ =>
@@ -82,6 +104,9 @@ namespace GameMain.Scripts.Entity.EntityLogic
         public void OnGameInit()
         {
             playerController = this.GetModel<PlayerModel>().controller;
+
+            cursorNormal = Resources.Load<Texture2D>(AssetUtility.GetCursorAsset("Normal"));
+            cursorSelect = Resources.Load<Texture2D>(AssetUtility.GetCursorAsset("Select"));
         }
 
         public void OnUpdate(float elapse)
@@ -101,6 +126,19 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         private void UpdateMouse()
         {
+            var mousePosition = Input.mousePosition;
+            var ray = Camera.main.ScreenPointToRay(mousePosition);
+            Physics.Raycast(ray, out var hit);
+            
+            if (hit.collider && hit.collider.CompareTag("NPC"))
+            {
+                cursorType.Value = CursorType.Select;
+            }
+            else
+            {
+                cursorType.Value = CursorType.Normal;
+            }
+            
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 isReady2Dialogue.Value = false;
@@ -109,11 +147,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
                 switch (mouseInteractType.Value)
                 {
                     case MouseInteractType.Ground:
-                        var mousePosition = Input.mousePosition;
-
-                        var ray = Camera.main.ScreenPointToRay(mousePosition);
-
-                        if (Physics.Raycast(ray, out var hit))
+                        if (hit.collider)
                         {
                             if (hit.collider.CompareTag("NPC"))
                             {
@@ -146,6 +180,11 @@ namespace GameMain.Scripts.Entity.EntityLogic
             if (Input.GetMouseButton(1))
             {
                 isShowingOutline.Value = true;
+                
+                if (DialogueManager.Instance.dialogueState.Value == DialogueState.Open)
+                {
+                    DialogueManager.Instance.SkipDialogue();
+                }
             }
             else
             {
