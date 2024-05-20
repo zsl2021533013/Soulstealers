@@ -11,7 +11,7 @@ namespace GameMain.Scripts.Tools.Node_Canvas_Extension
         public int taskId;
         
         protected override string info {
-            get { return $"Start Task {taskId}"; }
+            get { return $"Complete Task {taskId}"; }
         }
 
         protected override void OnExecute() {

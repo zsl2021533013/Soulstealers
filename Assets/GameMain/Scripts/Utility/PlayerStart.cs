@@ -4,6 +4,8 @@ namespace GameMain.Scripts.Utility
 {
     public class PlayerStart : MonoBehaviour
     {
+#if UNITY_EDITOR
+        
         private string iconPath = "GameMain/Gizmos/PlayerStart.png"; // 图片相对于项目文件夹的路径
 
         // 当物体被选中时，绘制Gizmos图标
@@ -29,5 +31,6 @@ namespace GameMain.Scripts.Utility
                 Debug.LogWarning("Failed to load Gizmos icon at path: " + fullPath);
             }
         }
+#endif
     }
 }
