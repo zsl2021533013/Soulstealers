@@ -28,7 +28,7 @@ namespace GameMain.Scripts.Scriptable_Object
         public string completeText;
     }
     
-    [CreateAssetMenu(fileName = "QuestsData", menuName = "Scriptable Object/QuestsData", order = 0)]
+    [CreateAssetMenu(fileName = "QuestsData", menuName = "Scriptable Object/QuestsData")]
     public class TaskData : ScriptableObject
     {
         [ListDrawerSettings(CustomAddFunction = "AddTask")]

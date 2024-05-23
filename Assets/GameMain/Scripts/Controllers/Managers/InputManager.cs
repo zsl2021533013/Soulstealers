@@ -179,9 +179,11 @@ namespace GameMain.Scripts.Entity.EntityLogic
             
             if (Input.GetMouseButton(1))
             {
-                isShowingOutline.Value = true;
-                
-                if (DialogueManager.Instance.dialogueState.Value == DialogueState.Open)
+                if (mouseInteractType.Value == MouseInteractType.Ground)
+                {
+                    isShowingOutline.Value = true;
+                }
+                if (mouseInteractType.Value == MouseInteractType.Dialogue)
                 {
                     DialogueManager.Instance.SkipDialogue();
                 }

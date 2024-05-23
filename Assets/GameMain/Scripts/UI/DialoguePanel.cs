@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using DG.Tweening;
 using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Utility;
@@ -41,7 +42,7 @@ namespace GameMain.Scripts.UI
         public GameObject optionBtnTemplate;
 
         private List<GameObject> cachedSpeechs = new List<GameObject>();
-        private Dictionary<CommonButton, int> cachedBtns = new Dictionary<CommonButton, int>();
+        private Dictionary<CommonButton, (int index, string text)> cachedBtns = new ();
         private bool isWaitingChoice;
         
         private TMP_Text speechTMP;
@@ -155,7 +156,7 @@ namespace GameMain.Scripts.UI
             var audio = info.statement.audio;
             var actor = info.actor;
             
-            speechText = actor.name + ":\n" + text.Convert2E();
+            speechText = actor.name + ":\n" + text;
 
             questReady = false;
 
@@ -206,7 +207,7 @@ namespace GameMain.Scripts.UI
 
         public void OnMultipleChoiceRequest(MultipleChoiceRequestInfo info)
         {
-            cachedBtns = new Dictionary<CommonButton, int>();
+            cachedBtns = new Dictionary<CommonButton, (int, string)>();
             
             optionsGroup.gameObject.SetActive(true);
             continueBtn.gameObject.SetActive(false);
@@ -215,22 +216,36 @@ namespace GameMain.Scripts.UI
             var index = 0;
             foreach (var pair in info.options)
             {
-                var text = $"{index + 1}.{pair.Key.text.Convert2E()}";
+                var text = $"{index + 1}.{pair.Key.text}";
                 
                 var btn = Instantiate(optionBtnTemplate, optionBtnTemplate.transform.parent).GetComponent<CommonButton>();
                 btn.gameObject.SetActive(true);
                 btn.GetComponentInChildren<TMP_Text>()
                     .DOText(text, text.Length * subtitleDelays.characterDelay);
                 
-                cachedBtns.Add(btn, index);
+                cachedBtns.Add(btn, (index, text));
                 btn.onClick.AddListener(() =>
                 {
                     optionsGroup.gameObject.SetActive(false);
                     subtitlesGroup.gameObject.SetActive(false);
-                    foreach ( var (btn, i) in cachedBtns ) {
+                    foreach ( var (btn, i) in cachedBtns )
+                    {
                         Destroy(btn.gameObject);
                     }
-                    info.SelectOption(cachedBtns[btn]);
+                    
+                    var actorSpeech = Instantiate(actorSpeechTemplate, actorSpeechTemplate.transform.parent);
+                    cachedSpeechs.Add(actorSpeech);
+                    actorSpeech.SetActive(true);
+                    
+                    speechTMP = actorSpeech.GetComponent<TMP_Text>();
+                    var t = Regex.Replace(cachedBtns[btn].text, @"(\d+\.)", "");
+                    speechTMP.text = "应笑生：\n" + t;
+            
+                    Canvas.ForceUpdateCanvases();
+
+                    content.verticalNormalizedPosition = 0f;
+                    
+                    info.SelectOption(cachedBtns[btn].index);
                 });
                 
                 index++;

@@ -10,6 +10,7 @@ namespace GameMain.Scripts
         {
             RegisterModel(new PlayerModel());
             RegisterModel(new TaskModel());
+            RegisterModel(new NPCModel());
         }
     }
 }

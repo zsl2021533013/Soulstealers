@@ -32,7 +32,7 @@ namespace NodeCanvas.DialogueTrees
 
         [SliderField(0f, 10f)]
         public float availableTime;
-        public bool saySelection = true;
+        public bool saySelection;
 
         [SerializeField, AutoSortWithChildrenConnections]
         private List<Choice> availableChoices = new List<Choice>();
