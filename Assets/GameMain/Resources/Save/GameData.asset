@@ -15,6 +15,17 @@ MonoBehaviour:
   playerData:
     position: {x: 20.79, y: 0.11, z: 14.24}
     rotation: {x: 0, y: 0, z: 0, w: 1}
+  dialogueData:
+    m_Keys:
+    - Letter
+    - Opening
+    - Door
+    m_Values:
+    - '{"_variables":{"hasDialogueStart":{"_name":"hasDialogueStart","_id":"e8241677-66ac-4f9d-8e6d-f31e517ea202","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+    - '{"_variables":{}}'
+    - '{"_variables":{"hasDialogueStart":{"_name":"hasDialogueStart","_id":"db57ecc5-7d6c-434f-a243-2aa66bbc144e","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
   tasks:
   - id: 0
     state: 0

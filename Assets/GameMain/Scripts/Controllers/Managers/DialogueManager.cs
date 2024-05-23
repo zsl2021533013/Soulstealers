@@ -5,6 +5,7 @@ using GameMain.Scripts.Utility;
 using NodeCanvas.DialogueTrees;
 using QFramework;
 using UniRx;
+using UnityEngine;
 
 namespace GameMain.Scripts.Entity.EntityLogic
 {
@@ -12,11 +13,12 @@ namespace GameMain.Scripts.Entity.EntityLogic
     {
         Open,
         Close
+        
     }
     
     public class DialogueManager : MonoSingleton<DialogueManager>, ISoulstealersGameController
     {
-        public ReactiveProperty<DialogueState> dialogueState = new ReactiveProperty<DialogueState>();
+        public ReactiveProperty<DialogueState> dialogueState;
 
         private DialoguePanel panel;
         
@@ -26,6 +28,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
             
             panel = UIKit.OpenPanel<DialoguePanel>();
 
+            dialogueState = new ReactiveProperty<DialogueState>(DialogueState.Close);
             dialogueState.Subscribe(value =>
             {
                 if (value == DialogueState.Open)

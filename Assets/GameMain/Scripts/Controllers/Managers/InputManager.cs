@@ -37,13 +37,18 @@ namespace GameMain.Scripts.Entity.EntityLogic
         private Texture2D cursorNormal;
         private Texture2D cursorSelect;
         
-        public ReactiveProperty<MouseInteractType> mouseInteractType = new ReactiveProperty<MouseInteractType>();
-        public ReactiveProperty<CursorType> cursorType = new ReactiveProperty<CursorType>();
-        public ReactiveProperty<bool> isReady2Dialogue = new ReactiveProperty<bool>();
-        public ReactiveProperty<bool> isShowingOutline = new ReactiveProperty<bool>();
+        public ReactiveProperty<MouseInteractType> mouseInteractType;
+        public ReactiveProperty<CursorType> cursorType;
+        public ReactiveProperty<bool> isReady2Dialogue;
+        public ReactiveProperty<bool> isShowingOutline;
 
-        private void Awake()
+        public void OnGameInit()
         {
+            mouseInteractType = new ReactiveProperty<MouseInteractType>(MouseInteractType.Ground);
+            cursorType = new ReactiveProperty<CursorType>(CursorType.Normal);
+            isReady2Dialogue = new ReactiveProperty<bool>(false);
+            isShowingOutline = new ReactiveProperty<bool>(false);
+            
             isReady2Dialogue.Subscribe(value =>
             {
                 if (value)
@@ -99,10 +104,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
                 })
                 .AddTo(moveTarget);
             moveTarget.SetActive(false);
-        }
-
-        public void OnGameInit()
-        {
+            
             playerController = this.GetModel<PlayerModel>().controller;
 
             cursorNormal = Resources.Load<Texture2D>(AssetUtility.GetCursorAsset("Normal"));

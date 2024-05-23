@@ -18,11 +18,6 @@ namespace GameMain.Scripts.Model
             var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).tasks;
 
             tasks = data;
-
-            Soulstealers.Interface.RegisterEvent<ModelChangeEvent>(e =>
-            {
-                
-            });
         }
 
         public void ActivateTask(int id)

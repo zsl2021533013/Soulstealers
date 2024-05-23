@@ -16,15 +16,22 @@ namespace GameMain.Scripts.Game
     {
         private List<ISoulstealersGameController> managers = new List<ISoulstealersGameController>();
         private List<ISoulstealersGameController> characters = new List<ISoulstealersGameController>();
+
+        private bool isNewGame;
         
         public override void Initialize()
         {
             base.Initialize();
 
-            var panel = UIKit.OpenPanel<SceneChangePanel>();
-            panel.FadeOut();
+            isNewGame = false;
 
             MakeSureData();
+            
+            if (isNewGame)
+            {
+                var panel = UIKit.GetPanel<SceneChangePanel>();
+                panel.FadeOut();
+            }
 
             _ = Soulstealers.Interface;
 
@@ -32,9 +39,16 @@ namespace GameMain.Scripts.Game
             LoadPlayer();
             LoadNPC();
             LoadTask();
-            
+
             managers.ForEach(manager => manager.OnGameInit());
             characters.ForEach(character => character.OnGameInit());
+            
+            if (isNewGame)
+            {
+                var opening = GameObject.Find("Opening");
+                var controller = opening.GetComponent<NPCController>();
+                controller.StartDialogue();
+            }
         }
 
         public override void Update(float elapse)
@@ -66,6 +80,7 @@ namespace GameMain.Scripts.Game
             var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData"));
             if (data == null)
             {
+                isNewGame = true;
                 data = ScriptableObject.CreateInstance<GameData>();
                 
                 var playerStart = Object.FindObjectOfType<PlayerStart>().transform;

@@ -184,6 +184,8 @@ MonoBehaviour:
   moveTarget: {fileID: 6952494112192025231}
   mouseInteractType:
     value: 0
+  cursorType:
+    value: 0
   isReady2Dialogue:
     value: 0
   isShowingOutline:
