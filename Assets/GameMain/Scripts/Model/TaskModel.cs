@@ -1,23 +1,33 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GameMain.Scripts.Event;
 using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.Utility;
 using QFramework;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameMain.Scripts.Model
 {
     public class TaskModel : AbstractModel
     {
-        public TaskData data;
+        public List<Task> tasks;
         
         protected override void OnInit()
         {
-            data = Resources.Load<TaskData>(AssetUtility.GetSOAsset("TaskData")).Instantiate();
+            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).tasks;
+
+            tasks = data;
+
+            Soulstealers.Interface.RegisterEvent<ModelChangeEvent>(e =>
+            {
+                
+            });
         }
 
         public void ActivateTask(int id)
         {
-            var task = data.tasks.FirstOrDefault(task => task.Id == id);
+            var task = tasks.FirstOrDefault(task => task.Id == id);
             if (task.state == Task.TaskState.Inactive)
             {
                 task.state = Task.TaskState.Active;
@@ -26,7 +36,7 @@ namespace GameMain.Scripts.Model
 
         public void CompleteTask(int id)
         {
-            var task = data.tasks.FirstOrDefault(task => task.Id == id);
+            var task = tasks.FirstOrDefault(task => task.Id == id);
             if (task.state == Task.TaskState.Active)
             {
                 task.state = Task.TaskState.Complete;

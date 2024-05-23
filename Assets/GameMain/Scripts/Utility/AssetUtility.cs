@@ -31,5 +31,10 @@
         {
             return $"Sprites/Cursor/{assetName}";
         }
+        
+        public static string GetSaveAsset(string assetName)
+        {
+            return $"Save/{assetName}";
+        } 
     }
 }

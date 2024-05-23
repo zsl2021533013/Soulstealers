@@ -39,6 +39,4 @@ namespace GameMain.Scripts.Scriptable_Object
             return new Task(tasks.Count);
         }
     }
-    
-    
 }

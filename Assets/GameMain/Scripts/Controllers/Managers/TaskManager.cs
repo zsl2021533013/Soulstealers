@@ -18,7 +18,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
         public void OnGameInit()
         {
             var model = this.GetModel<TaskModel>();
-            UIKit.OpenPanel<TaskPanel>(new TaskPanelData() { taskData = model.data });
+            UIKit.OpenPanel<TaskPanel>(new TaskPanelData() { tasks = model.tasks });
 
             isNewTask.Subscribe(value =>
             {

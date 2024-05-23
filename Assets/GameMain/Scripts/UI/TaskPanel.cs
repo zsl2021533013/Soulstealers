@@ -11,7 +11,7 @@ namespace GameMain.Scripts.UI
 {
     public class TaskPanelData : UIPanelData
     {
-        public TaskData taskData;
+        public List<Task> tasks;
     }
     
     public class TaskPanel : UIPanel
@@ -22,7 +22,7 @@ namespace GameMain.Scripts.UI
         public GameObject activeTaskTemple;
         public GameObject completeTaskTemple;
 
-        private TaskData taskData;
+        private List<Task> tasks;
         
         private List<GameObject> activeTaskCache = new List<GameObject>();
         private List<GameObject> completeTaskCache = new List<GameObject>();
@@ -66,7 +66,7 @@ namespace GameMain.Scripts.UI
         {
             base.OnOpen(uiData);
 
-            taskData = (uiData as TaskPanelData)?.taskData;
+            tasks = (uiData as TaskPanelData)?.tasks;
             
             activeTaskTemple.SetActive(false);
             completeTaskTemple.SetActive(false);
@@ -81,7 +81,7 @@ namespace GameMain.Scripts.UI
             activeTaskCache.ForEach(Destroy);
             completeTaskCache.ForEach(Destroy);
             
-            foreach (var task in taskData.tasks)
+            foreach (var task in tasks)
             {
                 Debug.Log(task.state);
                 if (task.state == Task.TaskState.Active)

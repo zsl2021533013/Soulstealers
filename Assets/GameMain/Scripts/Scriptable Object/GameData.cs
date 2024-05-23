@@ -16,7 +16,7 @@ namespace GameMain.Scripts.Scriptable_Object
     public class GameData : ScriptableObject
     {
         public PlayerData playerData = new PlayerData();
-        public Dictionary<Blackboard, string> dialogueData = new Dictionary<Blackboard, string>();
-        public TaskData taskData;
+        public Dictionary<string, string> dialogueData = new Dictionary<string, string>();
+        public List<Task> tasks = new List<Task>();
     }
 }

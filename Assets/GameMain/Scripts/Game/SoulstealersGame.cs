@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using GameMain.Scripts.Controller;
 using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Model;
 using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.UI;
 using GameMain.Scripts.Utility;
-using NodeCanvas.DialogueTrees;
 using NodeCanvas.Framework;
 using QFramework;
+using UnityEditor;
 using UnityEngine;
 
 namespace GameMain.Scripts.Game
@@ -25,10 +24,15 @@ namespace GameMain.Scripts.Game
             var panel = UIKit.OpenPanel<SceneChangePanel>();
             panel.FadeOut();
 
+            MakeSureData();
+
+            _ = Soulstealers.Interface;
+
             LoadManager();
             LoadPlayer();
             LoadNPC();
-
+            LoadTask();
+            
             managers.ForEach(manager => manager.OnGameInit());
             characters.ForEach(character => character.OnGameInit());
         }
@@ -56,68 +60,60 @@ namespace GameMain.Scripts.Game
             managers.ForEach(manager => manager.OnGameShutdown());
             characters.ForEach(character => character.OnGameShutdown());
         }
+
+        private void MakeSureData()
+        {
+            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData"));
+            if (data == null)
+            {
+                data = ScriptableObject.CreateInstance<GameData>();
+                
+                var playerStart = Object.FindObjectOfType<PlayerStart>().transform;
+                data.playerData.position = playerStart.position;
+                data.playerData.rotation = playerStart.rotation;
+
+                var NPCs = Object.FindObjectsOfType<NPCController>();
+                NPCs.ForEach(npc =>
+                {
+                    data.dialogueData.Add(npc.name, npc.Serialize());
+                });
+                
+                data.tasks = Resources.Load<TaskData>(AssetUtility.GetSOAsset("TaskDataTemplate")).tasks;
+                
+                if (!AssetDatabase.Contains(data))
+                {
+                    AssetDatabase.CreateAsset(data, "Assets/GameMain/Resources/" + AssetUtility.GetSaveAsset("GameData") + ".asset");
+                    AssetDatabase.SaveAssets();
+                }
+            }
+        }
         
         private void LoadManager()
         {
-            var managerHolder = new GameObject("Manager Holder");
-            managerHolder.DontDestroyOnLoad();
-            
-            var managerAssets = Resources.LoadAll<GameObject>(AssetUtility.GetManagerAsset(""));
-            foreach (var manager in managerAssets)
-            {
-                var m = Object.Instantiate(manager, managerHolder.transform);
-                managers.Add(m.GetComponent<ISoulstealersGameController>());
-            }
+            var model = this.GetModel<ManagerModel>();
+            managers.AddRange(model.managers);
         }
 
         private void LoadPlayer()
         {
-            var data = Resources.Load<GameData>(AssetUtility.GetSOAsset("Game Data"))?.playerData;
-            var startPoint = Object.FindObjectOfType<PlayerStart>().transform;
-            
-            var player = Resources.Load<GameObject>(AssetUtility.GetCharacterAsset("Player"));
-            GameObject c;
-            if (data == null)
-            {
-                c = player.Instantiate(startPoint.position, Quaternion.identity);
-            }
-            else
-            {
-                c = player.Instantiate(data.position, data.rotation);
-            }
-            
-            characters.Add(c.GetComponent<ISoulstealersGameController>());
-            
-            this.GetModel<PlayerModel>().transform = c.transform;
-            this.GetModel<PlayerModel>().cameraPoint = c.transform.Find("Camera Point");
-            this.GetModel<PlayerModel>().controller = c.GetComponent<PlayerController>();
+            var model = this.GetModel<PlayerModel>();
+            characters.Add(model.controller);
         }
 
         private void LoadNPC()
         {
-            var NPCs = Object.FindObjectsOfType<NPCController>();
-            NPCs.ForEach(npc => characters.Add(npc.GetComponent<ISoulstealersGameController>()));
+            var model = this.GetModel<NPCModel>();
+            characters.AddRange(model.NPCs);
+        }
+
+        private void LoadTask()
+        {
             
-            var data = Resources.Load<GameData>(AssetUtility.GetSOAsset("Game Data"))?.dialogueData;
-            
-            if (data == null)
-            {
-                var opening = GameObject.Find("Opening");
-                opening.GetComponent<NPCController>().StartDialogue();
-            }
-            else
-            {
-                var blackboards = NPCs.Select(npc => npc.GetComponent<Blackboard>()).ToList();
-                blackboards.ForEach(blackboard =>
-                {
-                    blackboard.Deserialize(data[blackboard], null);
-                });
-            }
         }
 
         private void Save()
         {
-            var data = ScriptableObject.CreateInstance<GameData>();
+            /*var data = ScriptableObject.CreateInstance<GameData>();
             var playerData = data.playerData;
             var dialogueData = data.dialogueData;
             
@@ -125,7 +121,15 @@ namespace GameMain.Scripts.Game
             playerData.position = player.position;
             playerData.rotation = player.rotation;
 
-            var NPCs = characters.Where(character);
+            var NPCs = this.GetModel<NPCModel>().NPCs;
+            NPCs.ForEach(npc =>
+            {
+                var blackboard = npc.GetComponent<Blackboard>();
+                dialogueData.Add(blackboard, blackboard.Serialize(null));
+            });
+
+            var tasks = this.GetModel<TaskModel>().tasks;
+            data.taskData = tasks;*/
         }
 
         public IArchitecture GetArchitecture()

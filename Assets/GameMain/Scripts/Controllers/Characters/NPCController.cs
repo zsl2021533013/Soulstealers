@@ -22,19 +22,6 @@ namespace GameMain.Scripts.Entity.EntityLogic
         [SerializeField]
         private Outlinable outline;
         
-        public void StartDialogue()
-        {
-            if (!controller.isRunning)
-            {
-                controller.StartDialogue();
-            }
-        }
-
-        public Vector3 GetDialoguePoint()
-        {
-            return dialoguePoint.position;
-        }
-
         public void OnGameInit()
         {
         }
@@ -49,6 +36,29 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public void OnGameShutdown()
         {
+        }
+
+        public string Serialize()
+        {
+            return blackboard.Serialize(null);
+        }
+
+        public void Deserialize(string t)
+        {
+            blackboard.Deserialize(t, null);
+        }
+        
+        public void StartDialogue()
+        {
+            if (!controller.isRunning)
+            {
+                controller.StartDialogue();
+            }
+        }
+
+        public Vector3 GetDialoguePoint()
+        {
+            return dialoguePoint.position;
         }
         
         public IArchitecture GetArchitecture()
