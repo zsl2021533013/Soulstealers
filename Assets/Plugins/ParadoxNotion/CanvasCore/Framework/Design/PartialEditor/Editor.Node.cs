@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using NodeCanvas.DialogueTrees;
 using NodeCanvas.Editor;
 using ParadoxNotion;
 using ParadoxNotion.Design;
@@ -540,6 +541,9 @@ namespace NodeCanvas.Framework
 
             menu.AddSeparator("/");
             menu.AddItem(new GUIContent("Delete Selected Nodes"), false, () => { foreach ( Node n in GraphEditorUtility.activeElements.ToArray() ) graph.RemoveNode(n); });
+            
+            menu.AddSeparator("/");
+            menu.AddItem(new GUIContent("Align Tree"), false, graph.AlignTree);
             return menu;
         }
 

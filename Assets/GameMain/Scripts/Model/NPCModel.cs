@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GameMain.Scripts.Entity.EntityLogic;
+using GameMain.Scripts.Event;
 using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.Utility;
+using NodeCanvas.DialogueTrees;
 using NodeCanvas.Framework;
 using QFramework;
 using UnityEngine;
@@ -24,6 +26,20 @@ namespace GameMain.Scripts.Model
             {
                 npc.Deserialize(data[npc.name]);
             });
+            
+            DialogueTree.OnDialogueFinished += OnDialogueFinished;
+        }
+
+        protected override void OnDeinit()
+        {
+            base.OnDeinit();
+            
+            DialogueTree.OnDialogueFinished -= OnDialogueFinished;
+        }
+
+        private void OnDialogueFinished(DialogueTree obj)
+        {
+            this.SendEvent<ModelChangeEvent>();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace GameMain.Scripts.Model
         {
             var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).tasks;
 
-            tasks = data;
+            tasks = new List<Task>(data);
         }
 
         public void ActivateTask(int id)
@@ -27,6 +27,8 @@ namespace GameMain.Scripts.Model
             {
                 task.state = Task.TaskState.Active;
             }
+            
+            this.SendEvent<ModelChangeEvent>();
         }
 
         public void CompleteTask(int id)
@@ -36,6 +38,8 @@ namespace GameMain.Scripts.Model
             {
                 task.state = Task.TaskState.Complete;
             }
+            
+            this.SendEvent<ModelChangeEvent>();
         }
     }
 }

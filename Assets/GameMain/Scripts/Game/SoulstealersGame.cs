@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameMain.Scripts.Controller;
 using GameMain.Scripts.Entity.EntityLogic;
+using GameMain.Scripts.Event;
 using GameMain.Scripts.Model;
 using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.UI;
@@ -101,6 +102,11 @@ namespace GameMain.Scripts.Game
                     AssetDatabase.SaveAssets();
                 }
             }
+
+            this.RegisterEvent<ModelChangeEvent>(e =>
+            {
+                Save();
+            });
         }
         
         private void LoadManager()
@@ -128,23 +134,26 @@ namespace GameMain.Scripts.Game
 
         private void Save()
         {
-            /*var data = ScriptableObject.CreateInstance<GameData>();
+            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData"));
             var playerData = data.playerData;
             var dialogueData = data.dialogueData;
+            var taskData = data.tasks;
             
             var player = this.GetModel<PlayerModel>().transform;
             playerData.position = player.position;
             playerData.rotation = player.rotation;
 
+            dialogueData.Clear();
             var NPCs = this.GetModel<NPCModel>().NPCs;
             NPCs.ForEach(npc =>
             {
                 var blackboard = npc.GetComponent<Blackboard>();
-                dialogueData.Add(blackboard, blackboard.Serialize(null));
+                dialogueData.Add(npc.name, blackboard.Serialize(null));
             });
 
+            taskData.Clear();
             var tasks = this.GetModel<TaskModel>().tasks;
-            data.taskData = tasks;*/
+            taskData.AddRange(tasks);
         }
 
         public IArchitecture GetArchitecture()
