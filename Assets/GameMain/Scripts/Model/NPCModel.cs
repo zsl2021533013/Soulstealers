@@ -2,6 +2,7 @@
 using System.Linq;
 using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Event;
+using GameMain.Scripts.Game;
 using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.Utility;
 using NodeCanvas.DialogueTrees;
@@ -19,14 +20,15 @@ namespace GameMain.Scripts.Model
         {
             NPCs = new List<NPCController>();
             
-            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).npcDataDic;
+            var data = ES3.Load<GameData>(SoulstealersGame.DataName, 
+                AssetUtility.GetSaveAsset(SoulstealersGame.DataName)).npcDataDic;
             
             NPCs = Object.FindObjectsOfType<NPCController>().ToList();
             NPCs.ForEach(npc =>
             {
                 if (data.ContainsKey(npc.name))
                 {
-                    npc.Deserialize(data[npc.name]);
+                    npc.LoadData(data[npc.name]);
                 }
             });
             

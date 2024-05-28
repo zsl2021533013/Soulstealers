@@ -35,6 +35,7 @@ namespace GameMain.Scripts.UI
             
             openBtn.onClick.AddListener(() =>
             {
+                openBtn.gameObject.SetActive(false);
                 taskContent.SetActive(true);
 
                 if (InputManager.Instance.mouseInteractType.Value == InputManager.MouseInteractType.Ground)
@@ -80,23 +81,26 @@ namespace GameMain.Scripts.UI
         {
             activeTaskCache.ForEach(Destroy);
             completeTaskCache.ForEach(Destroy);
-            
+
+            int activeIndex = 1;
+            int completeIndex = 1;
             foreach (var task in tasks)
             {
-                Debug.Log(task.state);
                 if (task.state == Task.TaskState.Active)
                 {
                     var t = Instantiate(activeTaskTemple, activeTaskTemple.transform.parent);
                     t.SetActive(true);
                     activeTaskCache.Add(t);
-                    t.GetComponent<TMP_Text>().text = task.activeText;
+                    t.GetComponent<TMP_Text>().text = $"{activeIndex}. " + task.activeText;
+                    activeIndex++;
                 }
                 if (task.state == Task.TaskState.Complete)
                 {
                     var t = Instantiate(completeTaskTemple, completeTaskTemple.transform.parent);
                     t.SetActive(true);
                     completeTaskCache.Add(t);
-                    t.GetComponent<TMP_Text>().text = task.completeText;
+                    t.GetComponent<TMP_Text>().text = $"{completeIndex}. " + task.completeText;
+                    completeIndex++;
                 }
             }
         }

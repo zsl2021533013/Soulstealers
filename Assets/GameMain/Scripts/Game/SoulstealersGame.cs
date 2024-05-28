@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Common;
 using GameMain.Scripts.Controller;
 using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Event;
@@ -15,6 +16,8 @@ namespace GameMain.Scripts.Game
 {
     public class SoulstealersGame : GameBase, IController
     {
+        public static string DataName;
+        
         private List<ISoulstealersGameController> managers = new List<ISoulstealersGameController>();
         private List<ISoulstealersGameController> characters = new List<ISoulstealersGameController>();
 
@@ -46,6 +49,9 @@ namespace GameMain.Scripts.Game
             
             if (isNewGame)
             {
+                var panel = UIKit.GetPanel<TaskPanel>();
+                panel.openBtn.gameObject.SetActive(false);
+                
                 var opening = GameObject.Find("Opening");
                 var controller = opening.GetComponent<NPCController>();
                 controller.StartDialogue();
@@ -78,11 +84,17 @@ namespace GameMain.Scripts.Game
 
         private void MakeSureData()
         {
-            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData"));
+
+            GameData data = null;
+            if (ES3.KeyExists(DataName, AssetUtility.GetSaveAsset(DataName)))
+            {
+                data = ES3.Load<GameData>(DataName, AssetUtility.GetSaveAsset(DataName));
+            }
+            
             if (data == null)
             {
                 isNewGame = true;
-                data = ScriptableObject.CreateInstance<GameData>();
+                data = new GameData();
                 
                 var playerStart = Object.FindObjectOfType<PlayerStart>().transform;
                 data.playerData.position = playerStart.position;
@@ -91,17 +103,12 @@ namespace GameMain.Scripts.Game
                 var NPCs = Object.FindObjectsOfType<NPCController>();
                 NPCs.ForEach(npc =>
                 {
-                    data.npcDataDic.Add(npc.name, npc.Serialize());
+                    data.npcDataDic.Add(npc.name, npc.GetData());
                 });
+
+                data.tasks.AddRange(Resources.Load<TaskData>(AssetUtility.GetSOAsset("TaskDataTemplate")).tasks);
                 
-                data.tasks = Resources.Load<TaskData>(AssetUtility.GetSOAsset("TaskDataTemplate")).tasks;
-                
-                if (!AssetDatabase.Contains(data))
-                {
-                    AssetDatabase.CreateAsset(data, "Assets/GameMain/Resources/" + AssetUtility.GetSaveAsset("GameData") + ".asset");
-                    EditorUtility.SetDirty(data);
-                    AssetDatabase.SaveAssets();
-                }
+                ES3.Save(DataName, data, AssetUtility.GetSaveAsset(DataName));
             }
 
             this.RegisterEvent<ModelChangeEvent>(e =>
@@ -135,9 +142,9 @@ namespace GameMain.Scripts.Game
 
         private void Save()
         {
-            Debug.Log("Save Game");
+            Debug.Log($"Save Game : {DataName}");
             
-            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData"));
+            var data = ES3.Load<GameData>(DataName, AssetUtility.GetSaveAsset(DataName));
             var playerData = data.playerData;
             var npcDataDic = data.npcDataDic;
             var taskData = data.tasks;
@@ -150,15 +157,14 @@ namespace GameMain.Scripts.Game
             var NPCs = this.GetModel<NPCModel>().NPCs;
             NPCs.ForEach(npc =>
             {
-                npcDataDic.Add(npc.name, npc.Serialize());
+                npcDataDic.Add(npc.name, npc.GetData());
             });
 
             taskData.Clear();
             var tasks = this.GetModel<TaskModel>().tasks;
             taskData.AddRange(tasks);
 
-            EditorUtility.SetDirty(data);
-            AssetDatabase.SaveAssets();
+            ES3.Save(DataName, data, AssetUtility.GetSaveAsset(DataName));
         }
 
         public IArchitecture GetArchitecture()

@@ -1,5 +1,6 @@
 ﻿using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Event;
+using GameMain.Scripts.Game;
 using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.Utility;
 using QFramework;
@@ -40,7 +41,8 @@ namespace GameMain.Scripts.Model
 
         private void LoadPlayer()
         {
-            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).playerData;
+            var data = ES3.Load<GameData>(SoulstealersGame.DataName, 
+                AssetUtility.GetSaveAsset(SoulstealersGame.DataName)).playerData;
             var player = Resources.Load<GameObject>(AssetUtility.GetCharacterAsset("Player"));
             var c = player.Instantiate(data.position, data.rotation);
             

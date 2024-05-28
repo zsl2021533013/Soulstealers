@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GameMain.Scripts.Event;
+using GameMain.Scripts.Game;
 using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.Utility;
 using QFramework;
@@ -15,7 +16,8 @@ namespace GameMain.Scripts.Model
         
         protected override void OnInit()
         {
-            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).tasks;
+            var data = ES3.Load<GameData>(SoulstealersGame.DataName, 
+                AssetUtility.GetSaveAsset(SoulstealersGame.DataName)).tasks;
 
             tasks = new List<Task>(data);
         }

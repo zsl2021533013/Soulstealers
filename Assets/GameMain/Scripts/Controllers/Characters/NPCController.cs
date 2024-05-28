@@ -41,7 +41,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
         {
         }
 
-        public string Serialize()
+        public Dictionary<string, object> GetData()
         {
             var blackboardSerialize = blackboard.Serialize(null);
             var position = transform.position;
@@ -56,24 +56,21 @@ namespace GameMain.Scripts.Entity.EntityLogic
                 { "tag", tag }
             };
 
-            return JsonConvert.SerializeObject(data,
-                new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            return data;
         }
 
-        public void Deserialize(string t)
+        public void LoadData(Dictionary<string, object> data)
         {
-            var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(t);
-
-            var blackboardSerialize = data["blackboard"].ToString();
+            var blackboardSerialize = (string)data["blackboard"];
             blackboard.Deserialize(blackboardSerialize, null);
 
-            var position = JsonConvert.DeserializeObject<Vector3>(data["position"].ToString());
+            var position = (Vector3)data["position"];
             transform.position = position;
 
-            var rotation = JsonConvert.DeserializeObject<Quaternion>(data["rotation"].ToString());
+            var rotation = (Quaternion)data["rotation"];
             transform.rotation = rotation;
 
-            transform.tag = data["tag"].ToString();
+            transform.tag = (string)data["tag"];
         }
         
         public void StartDialogue()

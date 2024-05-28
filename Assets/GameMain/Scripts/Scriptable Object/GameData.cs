@@ -15,10 +15,11 @@ namespace GameMain.Scripts.Scriptable_Object
         public Quaternion rotation;
     }
     
-    public class GameData : ScriptableObject
+    [Serializable]
+    public class GameData
     {
         public PlayerData playerData = new PlayerData();
-        public SerializedDictionary<string, string> npcDataDic = new SerializedDictionary<string, string>();
+        public Dictionary<string, Dictionary<string, object>> npcDataDic = new Dictionary<string, Dictionary<string, object>>();
         public List<Task> tasks = new List<Task>();
     }
 }

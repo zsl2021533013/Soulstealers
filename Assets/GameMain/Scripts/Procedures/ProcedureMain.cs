@@ -1,4 +1,5 @@
-﻿using GameMain.Scripts.Game;
+﻿using System.IO;
+using GameMain.Scripts.Game;
 using GameMain.Scripts.Tools;
 using GameMain.Scripts.UI;
 using GameMain.Scripts.Utility;
@@ -62,6 +63,12 @@ namespace GameMain.Scripts.Procedure
             
             var cursorNormal = Resources.Load<Texture2D>(AssetUtility.GetCursorAsset("Normal"));
             Cursor.SetCursor(cursorNormal, Vector2.zero, CursorMode.Auto);
+
+            var savePath = Application.persistentDataPath + "/Save";
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
         }
     }
     
@@ -122,6 +129,7 @@ namespace GameMain.Scripts.Procedure
             {
                 ChangeSceneState.nextState = ProcedureStates.Main;
                 ChangeSceneState.nextSceneName = "Main";
+                SoulstealersGame.DataName = "MainData";
                 mFSM.ChangeState(ProcedureStates.ChangeScene);
             });
         }

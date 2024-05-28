@@ -34,7 +34,7 @@
         
         public static string GetSaveAsset(string assetName)
         {
-            return $"Save/{assetName}";
+            return $"Save/{assetName}.es3";
         } 
     }
 }
