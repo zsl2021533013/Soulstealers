@@ -4,12 +4,13 @@ using EPOOutline;
 using GameMain.Scripts.Controller;
 using GameMain.Scripts.Event;
 using GameMain.Scripts.Model;
-using GameMain.Scripts.Utility;
 using QFramework;
 using UniRx;
 using UniRx.Triggers;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using AssetUtility = GameMain.Scripts.Utility.AssetUtility;
 
 namespace GameMain.Scripts.Entity.EntityLogic
 {
@@ -63,21 +64,27 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
             isShowingOutline.Subscribe(value =>
             {
+                var model = this.GetModel<NPCModel>();
+                var NPCs = model.NPCs;
                 if (value)
                 {
-                    var Outlinables = FindObjectsOfType<Outlinable>();
-                    foreach (var outlinable in Outlinables)
+                    NPCs.ForEach(npc =>
                     {
-                        outlinable.enabled = true;
-                    }
+                        if (npc.CompareTag("NPC"))
+                        {
+                            npc.EnableOutline();
+                        }
+                    });
                 }
                 else
                 {
-                    var Outlinables = FindObjectsOfType<Outlinable>();
-                    foreach (var outlinable in Outlinables)
+                    NPCs.ForEach(npc =>
                     {
-                        outlinable.enabled = false;
-                    }
+                        if (npc.CompareTag("NPC"))
+                        {
+                            npc.DisableOutline();
+                        }
+                    });
                 }
             });
 

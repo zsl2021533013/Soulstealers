@@ -146,8 +146,7 @@ namespace NodeCanvas.DialogueTrees
                     
                     if (rightMostNode.position.x > leftMostNode.position.x)
                     {
-                        var delta = rightMostNode.position.x + NodeDeltaX + rightMostNode.rect.size.x 
-                                    - leftMostNode.position.x;
+                        var delta = rightMostNode.position.x + rightMostNode.rect.size.x + NodeDeltaX - leftMostNode.position.x;
                         for (var k = j; k < children.Count; k++)
                         {
                             var child = children[k];

@@ -19,12 +19,15 @@ namespace GameMain.Scripts.Model
         {
             NPCs = new List<NPCController>();
             
-            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).dialogueData;
+            var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData")).npcDataDic;
             
             NPCs = Object.FindObjectsOfType<NPCController>().ToList();
             NPCs.ForEach(npc =>
             {
-                npc.Deserialize(data[npc.name]);
+                if (data.ContainsKey(npc.name))
+                {
+                    npc.Deserialize(data[npc.name]);
+                }
             });
             
             DialogueTree.OnDialogueFinished += OnDialogueFinished;

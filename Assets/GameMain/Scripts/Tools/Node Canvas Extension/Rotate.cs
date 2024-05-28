@@ -25,9 +25,8 @@ namespace GameMain.Scripts.Tools.Node_Canvas_Extension
             agent.DOKill();
             agent
                 .DORotate(new Vector3(agent.eulerAngles.x, targetAngle, agent.eulerAngles.z), duration.value)
-                .SetEase(Ease.Linear);
-            
-            EndAction();
+                .SetEase(Ease.Linear)
+                .OnComplete(EndAction);
         }
     }
 }

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d429411b0b934193b2e8d5ca05a391f3, type: 3}
+  m_Name: "\u79BB\u5F00\u521D\u59CB\u623F\u95F4"
+  m_EditorClassIdentifier: 
+  playerData:
+    position: {x: 19.332462, y: 0.10000038, z: 18.79954}
+    rotation: {x: -0, y: -0.6574674, z: -0, w: 0.753483}
+  npcDataDic:
+    m_Keys:
+    - Letter
+    - "ShangGuan Su\uFF08Tree\uFF09"
+    - Gao Rui
+    - '@GlobalBlackboard'
+    - Magistrate Ruan
+    - Opening
+    - Door
+    m_Values:
+    - '{"blackboard":"{\"_variables\":{\"hasDialogueStart\":{\"_value\":true,\"_name\":\"hasDialogueStart\",\"_id\":\"e8241677-66ac-4f9d-8e6d-f31e517ea202\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"}}}","position":{"x":24.02,"y":0.123,"z":19.14,"normalized":{"x":0.782068133,"y":0.004004762,"z":0.623180032,"magnitude":1.0,"sqrMagnitude":0.99999994},"magnitude":30.7134361,"sqrMagnitude":943.3151},"rotation":{"x":0.0,"y":0.9424177,"z":0.0,"w":0.334438145,"eulerAngles":{"x":0.0,"y":140.923248,"z":0.0,"normalized":{"x":0.0,"y":1.0,"z":0.0,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":140.923248,"sqrMagnitude":19859.3613},"normalized":{"x":0.0,"y":0.942417741,"z":0.0,"w":0.334438175,"eulerAngles":{"x":0.0,"y":140.923248,"z":0.0,"normalized":{"x":0.0,"y":1.0,"z":0.0,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":140.923248,"sqrMagnitude":19859.3613}}},"tag":"NPC"}'
+    - '{"blackboard":"{\"_variables\":{\"hasDialogueStart\":{\"_name\":\"hasDialogueStart\",\"_id\":\"9e9a857d-0ef1-4b1e-ab52-03a0a65ed046\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"}}}","position":{"x":45.27,"y":0.0,"z":30.55,"normalized":{"x":0.828910232,"y":0.0,"z":0.5593816,"magnitude":1.0,"sqrMagnitude":0.99999994},"magnitude":54.6138763,"sqrMagnitude":2982.67529},"rotation":{"x":0.0,"y":0.979505956,"z":0.0,"w":0.201415181,"eulerAngles":{"x":0.0,"y":156.760544,"z":0.0,"normalized":{"x":0.0,"y":1.0,"z":0.0,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":156.760544,"sqrMagnitude":24573.8672}},"tag":"NPC"}'
+    - '{"blackboard":"{\"_variables\":{\"hasDialogueStart\":{\"_name\":\"hasDialogueStart\",\"_id\":\"61e42d85-22f9-443f-8b24-507047ca2a9f\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"}}}","position":{"x":51.54,"y":0.0,"z":15.02,"normalized":{"x":0.960062563,"y":0.0,"z":0.2797854,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":53.6840019,"sqrMagnitude":2881.97217},"rotation":{"x":0.0,"y":0.354600072,"z":0.0,"w":-0.9350181,"eulerAngles":{"x":0.0,"y":318.462128,"z":0.0,"normalized":{"x":0.0,"y":1.0,"z":0.0,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":318.462128,"sqrMagnitude":101418.125}},"tag":"NPC"}'
+    - '{"blackboard":"{\"_variables\":{\"isNoticeTaskPanel\":{\"_value\":true,\"_name\":\"isNoticeTaskPanel\",\"_id\":\"ea952823-383f-493d-9175-29a6f25206f9\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"},\"isReadLetter\":{\"_value\":true,\"_name\":\"isReadLetter\",\"_id\":\"0260a373-ec90-459e-ac8f-39a930e4893d\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"},\"hasLearntSoulstealsAreBlackArt\":{\"_name\":\"hasLearntSoulstealsAreBlackArt\",\"_id\":\"475dace0-3658-465d-9650-2a6077742f96\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"}}}","position":{"x":0.0,"y":0.0,"z":0.0,"magnitude":0.0,"sqrMagnitude":0.0},"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0,"eulerAngles":{"x":0.0,"y":0.0,"z":0.0,"magnitude":0.0,"sqrMagnitude":0.0}},"tag":"Untagged"}'
+    - '{"blackboard":"{\"_variables\":{\"hasDialogueStart\":{\"_name\":\"hasDialogueStart\",\"_id\":\"e8241677-66ac-4f9d-8e6d-f31e517ea202\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"}}}","position":{"x":12.21,"y":-0.0200333018,"z":29.18,"normalized":{"x":0.386006653,"y":-0.0006333323,"z":0.9224958,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":31.63158,"sqrMagnitude":1000.55695},"rotation":{"x":0.0,"y":0.86795187,"z":0.0,"w":0.496648341,"eulerAngles":{"x":0.0,"y":120.443,"z":0.0,"normalized":{"x":0.0,"y":1.0,"z":0.0,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":120.443,"sqrMagnitude":14506.5166}},"tag":"NPC"}'
+    - '{"blackboard":"{\"_variables\":{}}","position":{"x":16.482,"y":0.123,"z":14.82,"normalized":{"x":0.7435922,"y":0.00554919569,"z":0.6686104,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":22.1653748,"sqrMagnitude":491.303864},"rotation":{"x":0.0,"y":0.0,"z":0.0,"w":1.0,"eulerAngles":{"x":0.0,"y":0.0,"z":0.0,"magnitude":0.0,"sqrMagnitude":0.0}},"tag":"NPC"}'
+    - '{"blackboard":"{\"_variables\":{\"hasDialogueStart\":{\"_value\":true,\"_name\":\"hasDialogueStart\",\"_id\":\"db57ecc5-7d6c-434f-a243-2aa66bbc144e\",\"$type\":\"NodeCanvas.Framework.Variable`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]\"}}}","position":{"x":18.224,"y":0.123,"z":20.531599,"normalized":{"x":0.6638217,"y":0.004480359,"z":0.747877538,"normalized":{"x":0.663821638,"y":0.00448035868,"z":0.7478775,"magnitude":1.0,"sqrMagnitude":0.99999994},"magnitude":1.00000012,"sqrMagnitude":1.00000012},"magnitude":27.4531574,"sqrMagnitude":753.6759},"rotation":{"x":0.0,"y":-0.7071068,"z":0.0,"w":0.7071068,"eulerAngles":{"x":0.0,"y":270.0,"z":0.0,"normalized":{"x":0.0,"y":1.0,"z":0.0,"magnitude":1.0,"sqrMagnitude":1.0},"magnitude":270.0,"sqrMagnitude":72900.0}},"tag":"Untagged"}'
+  tasks:
+  - id: 0
+    state: 1
+    activeText: "\u67E5\u6E05\u4EC0\u4E48\u662F<color=yellow>\u53EB\u9B42</color>\u3002"
+    completeText: "\u962E\u53BF\u957F\u8BF4<color=yellow>\u53EB\u9B42</color>\u5C31\u662F\u4E00\u79CD\u53EF\u4EE5\u593A\u4EBA\u5FC3\u9B44\u7684\u5996\u672F\uFF0C\u8FD9\u7FA4\u5996\u4EBA\u751A\u81F3\u5984\u60F3\u9020\u53CD\u3002"
+  - id: 1
+    state: 0
+    activeText: "\u4E3A\u4EC0\u4E48\u53EB\u9B42\u5996\u515A\u6709\u4E0A\u767E\u4E07\u4FE1\u5F92\uFF0C\u4F46\u662F\u73B0\u5728\u5B98\u5E9C\u5374\u4E00\u4E2A\u90FD\u6CA1\u6293\u5230\uFF1F"
+    completeText: "\u53EB\u9B42\u4F3C\u4E4E\u662F\u4E00\u79CD\u8FF7\u4FE1\uFF0C\u6765\u6E90\u4E8E\u6C11\u4F17\u56F0\u82E6\u751F\u6D3B\u4E4B\u4E0B\u7684\u6050\u60E7\u3002"
+  - id: 2
+    state: 0
+    activeText: "\u6C11\u4F17\u751F\u6D3B\u4E3A\u4F55\u56F0\u82E6\uFF1F"
+    completeText: "\u5B98\u5458\u8150\u8D25\uFF0C\u6D77\u5916\u519C\u4F5C\u7269\u4F20\u5165\u5BFC\u81F4\u7684\u4EBA\u53E3\u66B4\u589E\uFF0C\u5DE5\u4E1A\u5316\u521D\u671F\u9020\u5C31\u7684\u793E\u4F1A\u8F6C\u578B\u9635\u75DB\u3002"
+  - id: 3
+    state: 0
+    activeText: "\u68C0\u67E5\u9AD8\u745E\u7684\u5C38\u4F53\u3002"
+    completeText: "\u540E\u8111\u52FA\u649E\u51FB\u662F\u81F4\u547D\u4F24\uFF0C\u7F3A\u5C11\u4E86\u4E00\u628A\u5251\uFF08\u5251\u9798\u8FD8\u5728\uFF09\uFF0C\u4E00\u53EA\u978B\uFF08\u53F3\u811A\uFF09"
+  - id: 4
+    state: 0
+    activeText: "\u5BFB\u627E\u4E0A\u5B98\u9165\u3002"
+    completeText: "\u5979\u6B63\u5728\u9762\u9986\u91CC\u5E2E\u5FD9\u3002"

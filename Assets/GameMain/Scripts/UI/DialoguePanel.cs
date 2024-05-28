@@ -227,7 +227,6 @@ namespace GameMain.Scripts.UI
                 btn.onClick.AddListener(() =>
                 {
                     optionsGroup.gameObject.SetActive(false);
-                    subtitlesGroup.gameObject.SetActive(false);
                     foreach ( var (btn, i) in cachedBtns )
                     {
                         Destroy(btn.gameObject);

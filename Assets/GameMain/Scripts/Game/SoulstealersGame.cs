@@ -91,7 +91,7 @@ namespace GameMain.Scripts.Game
                 var NPCs = Object.FindObjectsOfType<NPCController>();
                 NPCs.ForEach(npc =>
                 {
-                    data.dialogueData.Add(npc.name, npc.Serialize());
+                    data.npcDataDic.Add(npc.name, npc.Serialize());
                 });
                 
                 data.tasks = Resources.Load<TaskData>(AssetUtility.GetSOAsset("TaskDataTemplate")).tasks;
@@ -99,6 +99,7 @@ namespace GameMain.Scripts.Game
                 if (!AssetDatabase.Contains(data))
                 {
                     AssetDatabase.CreateAsset(data, "Assets/GameMain/Resources/" + AssetUtility.GetSaveAsset("GameData") + ".asset");
+                    EditorUtility.SetDirty(data);
                     AssetDatabase.SaveAssets();
                 }
             }
@@ -134,26 +135,30 @@ namespace GameMain.Scripts.Game
 
         private void Save()
         {
+            Debug.Log("Save Game");
+            
             var data = Resources.Load<GameData>(AssetUtility.GetSaveAsset("GameData"));
             var playerData = data.playerData;
-            var dialogueData = data.dialogueData;
+            var npcDataDic = data.npcDataDic;
             var taskData = data.tasks;
             
             var player = this.GetModel<PlayerModel>().transform;
             playerData.position = player.position;
             playerData.rotation = player.rotation;
 
-            dialogueData.Clear();
+            npcDataDic.Clear();
             var NPCs = this.GetModel<NPCModel>().NPCs;
             NPCs.ForEach(npc =>
             {
-                var blackboard = npc.GetComponent<Blackboard>();
-                dialogueData.Add(npc.name, blackboard.Serialize(null));
+                npcDataDic.Add(npc.name, npc.Serialize());
             });
 
             taskData.Clear();
             var tasks = this.GetModel<TaskModel>().tasks;
             taskData.AddRange(tasks);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
         }
 
         public IArchitecture GetArchitecture()

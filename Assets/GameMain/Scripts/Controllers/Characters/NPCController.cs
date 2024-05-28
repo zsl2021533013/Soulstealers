@@ -1,9 +1,13 @@
-﻿using EPOOutline;
+﻿using System.Collections.Generic;
+using EPOOutline;
 using GameMain.Scripts.Controller;
+using GameMain.Scripts.Utility;
+using Newtonsoft.Json;
 using NodeCanvas.DialogueTrees;
 using NodeCanvas.Framework;
 using QFramework;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace GameMain.Scripts.Entity.EntityLogic
 {
@@ -39,12 +43,37 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public string Serialize()
         {
-            return blackboard.Serialize(null);
+            var blackboardSerialize = blackboard.Serialize(null);
+            var position = transform.position;
+            var rotation = transform.rotation;
+            var tag = transform.tag;
+            
+            var data = new Dictionary<string, object>
+            {
+                { "blackboard", blackboardSerialize },
+                { "position", position},
+                { "rotation", rotation},
+                { "tag", tag }
+            };
+
+            return JsonConvert.SerializeObject(data,
+                new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
 
         public void Deserialize(string t)
         {
-            blackboard.Deserialize(t, null);
+            var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(t);
+
+            var blackboardSerialize = data["blackboard"].ToString();
+            blackboard.Deserialize(blackboardSerialize, null);
+
+            var position = JsonConvert.DeserializeObject<Vector3>(data["position"].ToString());
+            transform.position = position;
+
+            var rotation = JsonConvert.DeserializeObject<Quaternion>(data["rotation"].ToString());
+            transform.rotation = rotation;
+
+            transform.tag = data["tag"].ToString();
         }
         
         public void StartDialogue()
@@ -52,6 +81,22 @@ namespace GameMain.Scripts.Entity.EntityLogic
             if (!controller.isRunning)
             {
                 controller.StartDialogue();
+            }
+        }
+
+        public void EnableOutline()
+        {
+            if (outline)
+            {
+                outline.enabled = true;
+            }
+        }
+
+        public void DisableOutline()
+        {
+            if (outline)
+            {
+                outline.enabled = false;
             }
         }
 

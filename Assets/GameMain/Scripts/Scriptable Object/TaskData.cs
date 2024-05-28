@@ -24,8 +24,8 @@ namespace GameMain.Scripts.Scriptable_Object
         public int Id => id;
         
         public TaskState state;
-        public string activeText;
-        public string completeText;
+        [Multiline] public string activeText;
+        [Multiline] public string completeText;
     }
     
     [CreateAssetMenu(fileName = "QuestsData", menuName = "Scriptable Object/QuestsData")]

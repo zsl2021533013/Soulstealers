@@ -170,7 +170,7 @@ namespace NodeCanvas.DialogueTrees
             }
 
             //Otherwise use the default actor and set the name to the key and null transform
-            Logger.Log(string.Format("An actor entry '{0}' on DialogueTree has no reference. A dummy Actor will be used with the entry Key for name", paramName), "Dialogue Tree", this);
+            // Logger.Log(string.Format("An actor entry '{0}' on DialogueTree has no reference. A dummy Actor will be used with the entry Key for name", paramName), "Dialogue Tree", this);
             return new ProxyDialogueActor(paramName, null);
         }
 
