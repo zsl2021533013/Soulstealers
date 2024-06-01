@@ -223,7 +223,7 @@ namespace GameMain.Scripts.UI
                 btn.GetComponentInChildren<TMP_Text>()
                     .DOText(text, text.Length * subtitleDelays.characterDelay);
                 
-                cachedBtns.Add(btn, (index, text));
+                cachedBtns.Add(btn, (pair.Value, text));
                 btn.onClick.AddListener(() =>
                 {
                     optionsGroup.gameObject.SetActive(false);

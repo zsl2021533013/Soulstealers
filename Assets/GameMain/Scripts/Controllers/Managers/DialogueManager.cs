@@ -1,5 +1,7 @@
 ﻿using System;
+using DG.Tweening;
 using GameMain.Scripts.Controller;
+using GameMain.Scripts.Model;
 using GameMain.Scripts.UI;
 using GameMain.Scripts.Utility;
 using NodeCanvas.DialogueTrees;
@@ -70,14 +72,29 @@ namespace GameMain.Scripts.Entity.EntityLogic
             DialogueTree.OnDialogueFinished -= OnDialogueFinished;
         }
 
+        public void StartDialogue(NPCController npc)
+        {
+            var player = this.GetModel<PlayerModel>();
+            npc.StartDialogue();
+            var lookAtPos = new Vector3(npc.transform.position.x, player.transform.position.y,
+                npc.transform.position.z);
+            player.transform.DOLookAt(lookAtPos, 1f);
+        }
+
         public void OnDialogueStarted(DialogueTree dlg)
         {
             dialogueState.Value = DialogueState.Open;
+            var player = this.GetModel<PlayerModel>();
+            player.agent.isStopped = true;
+            player.agent.updateRotation = false;
         }
         
         public void OnDialogueFinished(DialogueTree dlg)
         {
             dialogueState.Value = DialogueState.Close;
+            var player = this.GetModel<PlayerModel>();
+            player.agent.isStopped = false;
+            player.agent.updateRotation = true;
         }
 
         public void SkipDialogue()

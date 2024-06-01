@@ -6,6 +6,7 @@ using GameMain.Scripts.Utility;
 using QFramework;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace GameMain.Scripts.Model
 {
@@ -20,6 +21,7 @@ namespace GameMain.Scripts.Model
         public Transform transform;
         public Transform cameraPoint;
         public PlayerController controller;
+        public NavMeshAgent agent;
         
         public ReactiveProperty<NavMeshStatus> pathStatus = new ReactiveProperty<NavMeshStatus>()
         {
@@ -49,6 +51,7 @@ namespace GameMain.Scripts.Model
             transform = c.transform;
             cameraPoint = c.transform.Find("Camera Point");
             controller = c.GetComponent<PlayerController>();
+            agent = c.GetComponent<NavMeshAgent>();
         }
     }
 }

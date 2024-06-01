@@ -20,6 +20,8 @@ namespace GameMain.Scripts.Procedure
     
     public class ProcedureMain : MonoBehaviour
     {
+        public bool isTest;
+        
         public FSM<ProcedureStates> FSM = new FSM<ProcedureStates>();
         
         private void Awake()

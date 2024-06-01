@@ -205,9 +205,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
         
         private void OnPlayerArrive(PlayerArriveEvent e)
         {
-            var player = this.GetModel<PlayerModel>().transform;
-            player.DOLookAt(dialogueTarget.transform.position, 1f);
-            dialogueTarget.StartDialogue();
+            DialogueManager.Instance.StartDialogue(dialogueTarget);
         }
 
         public IArchitecture GetArchitecture()

@@ -144,9 +144,9 @@ namespace NodeCanvas.DialogueTrees
                 {
                     var leftMostNode = children[j].GetLeftMostNode(tree);
                     
-                    if (rightMostNode.position.x > leftMostNode.position.x)
+                    if (rightMostNode.rect.xMax > leftMostNode.rect.xMin)
                     {
-                        var delta = rightMostNode.position.x + rightMostNode.rect.size.x + NodeDeltaX - leftMostNode.position.x;
+                        var delta = rightMostNode.rect.xMax + NodeDeltaX - leftMostNode.rect.xMin;
                         for (var k = j; k < children.Count; k++)
                         {
                             var child = children[k];

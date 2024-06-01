@@ -58,14 +58,14 @@ namespace NodeCanvas.DialogueTrees
         
         public static Node GetLeftMostNode(this Node node, Dictionary<Node, List<Node>> tree)
         {
-            var leftMost = node.position.x;
+            var leftMost = node.rect.xMin;
             var leftMostNode = node;
             
             node.Traverse(mostNode =>
             {
-                if (mostNode.position.x < leftMost)
+                if (mostNode.rect.xMin < leftMost)
                 {
-                    leftMost = mostNode.position.x;
+                    leftMost = mostNode.rect.xMin;
                     leftMostNode = mostNode;
                 }
             }, tree);
@@ -75,12 +75,12 @@ namespace NodeCanvas.DialogueTrees
         
         public static Node GetRightMostNode(this Node node, Dictionary<Node, List<Node>> tree)
         {
-            var rightMost = node.position.x;
+            var rightMost = node.rect.xMax;
             var rightMostNode = node;
             
             node.Traverse(mostNode =>
             {
-                if (mostNode.position.x > rightMost)
+                if (mostNode.rect.xMax > rightMost)
                 {
                     rightMost = mostNode.position.x;
                     rightMostNode = mostNode;
