@@ -17,7 +17,7 @@ namespace NodeCanvas.Framework
     [Serializable, fsUninitialized]
     [ParadoxNotion.Design.SpoofAOT]
     ///<summary>Variables are stored in Blackboards and can optionaly be bound to Properties or Fields of a Unity Component</summary>
-    abstract public class Variable
+    public abstract class Variable
     {
 
         [SerializeField] private string _name;

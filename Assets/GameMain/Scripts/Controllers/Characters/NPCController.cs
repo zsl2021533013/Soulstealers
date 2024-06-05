@@ -43,7 +43,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public Dictionary<string, object> GetData()
         {
-            var blackboardSerialize = blackboard.Serialize(null);
+            var blackboardSerialize = blackboard.Serialize(null, true);
             var position = transform.position;
             var rotation = transform.rotation;
             var tag = transform.tag;
@@ -61,8 +61,11 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public void LoadData(Dictionary<string, object> data)
         {
+            var a = data["blackboard"];
+            Debug.Log(a.GetType());
+            
             var blackboardSerialize = (string)data["blackboard"];
-            blackboard.Deserialize(blackboardSerialize, null);
+            blackboard.Deserialize(blackboardSerialize, null, false);
 
             var position = (Vector3)data["position"];
             transform.position = position;

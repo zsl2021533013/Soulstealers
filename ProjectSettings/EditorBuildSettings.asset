@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameMain/Scenes/Main.unity
     guid: 11caed2e9f07b2e4e81946f81783c3a4
-  - enabled: 1
-    path: Assets/Easy Save 3/Examples/Creating save slots with Easy Save/Scene1.unity
-    guid: f46aded2cb26a0d4798b14e14b3fda7f
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

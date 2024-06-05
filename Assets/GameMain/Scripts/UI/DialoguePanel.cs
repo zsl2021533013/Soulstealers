@@ -31,14 +31,18 @@ namespace GameMain.Scripts.UI
         public RectTransform subtitlesGroup;
         public Image actorPortrait;
         public ScrollRect content;
-        public GameObject actorSpeechTemplate;
-        public CommonButton continueBtn;
         public SubtitleDelays subtitleDelays = new SubtitleDelays();
+        
         private AudioSource playSource;
         private bool questReady = true;
 
+        [Header("Speech")] 
+        public RectTransform speechHolder;
+        public GameObject actorSpeechTemplate;
+        public CommonButton continueBtn;
+        
         [Header("Multiple Choice")]
-        public RectTransform optionsGroup;
+        public RectTransform optionsHolder;
         public GameObject optionBtnTemplate;
 
         private List<GameObject> cachedSpeechs = new List<GameObject>();
@@ -149,7 +153,7 @@ namespace GameMain.Scripts.UI
         
         public void OnSubtitlesRequest(SubtitlesRequestInfo info) {
             subtitlesGroup.gameObject.SetActive(true);
-            optionsGroup.gameObject.SetActive(false);
+            optionsHolder.gameObject.SetActive(false);
             actorPortrait.gameObject.SetActive(true);
             
             var text = info.statement.text;
@@ -209,7 +213,7 @@ namespace GameMain.Scripts.UI
         {
             cachedBtns = new Dictionary<CommonButton, (int, string)>();
             
-            optionsGroup.gameObject.SetActive(true);
+            optionsHolder.gameObject.SetActive(true);
             continueBtn.gameObject.SetActive(false);
             actorPortrait.gameObject.SetActive(false);
 
@@ -220,13 +224,12 @@ namespace GameMain.Scripts.UI
                 
                 var btn = Instantiate(optionBtnTemplate, optionBtnTemplate.transform.parent).GetComponent<CommonButton>();
                 btn.gameObject.SetActive(true);
-                btn.GetComponentInChildren<TMP_Text>()
-                    .DOText(text, text.Length * subtitleDelays.characterDelay);
+                btn.GetComponentInChildren<TMP_Text>().text = text;
                 
                 cachedBtns.Add(btn, (pair.Value, text));
                 btn.onClick.AddListener(() =>
                 {
-                    optionsGroup.gameObject.SetActive(false);
+                    optionsHolder.gameObject.SetActive(false);
                     foreach ( var (btn, i) in cachedBtns )
                     {
                         Destroy(btn.gameObject);
@@ -248,6 +251,17 @@ namespace GameMain.Scripts.UI
                 });
                 
                 index++;
+            }
+            
+            Canvas.ForceUpdateCanvases();
+
+            content.verticalNormalizedPosition = 0f;
+
+            foreach (var (btn, (i, text)) in cachedBtns)
+            {
+                var t = btn.GetComponentInChildren<TMP_Text>();
+                t.text = "";
+                t.DOText(text, text.Length * subtitleDelays.characterDelay);
             }
         }
 
