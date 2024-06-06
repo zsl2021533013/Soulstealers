@@ -104,6 +104,18 @@ namespace NodeCanvas.Framework
             return true;
         }
 
+        public Dictionary<string, Variable> GetData()
+        {
+            return _blackboard.variables;
+        }
+
+        public void LoadData(Dictionary<string, Variable> data)
+        {
+            var bb = new BlackboardSource() { variables = data };
+            this.OverwriteFrom(bb, false);
+            this.InitializePropertiesBinding(( (IBlackboard)this ).propertiesBindTarget, true);
+        }
+
         ///----------------------------------------------------------------------------------------------
 
         public event System.Action<Variable> onVariableAdded;

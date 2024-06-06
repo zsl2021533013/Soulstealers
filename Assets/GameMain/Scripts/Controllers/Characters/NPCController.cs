@@ -11,7 +11,7 @@ using UnityEngine.Rendering;
 
 namespace GameMain.Scripts.Entity.EntityLogic
 {
-    public class NPCController : MonoBehaviour, IController, ISoulstealersGameController
+    public class NPCController : MonoBehaviour, ISoulstealersGameController
     {
         [SerializeField]
         private DialogueTreeController controller;
