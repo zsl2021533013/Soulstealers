@@ -14,8 +14,9 @@ namespace GameMain.Scripts.Entity.EntityLogic
     public enum DialogueState
     {
         Open,
-        Close
-        
+        Close,
+        Subtitles,
+        Multiple
     }
     
     public class DialogueManager : MonoSingleton<DialogueManager>, ISoulstealersGameController
@@ -64,12 +65,16 @@ namespace GameMain.Scripts.Entity.EntityLogic
         {
             DialogueTree.OnDialogueStarted += OnDialogueStarted;
             DialogueTree.OnDialogueFinished += OnDialogueFinished;
+            DialogueTree.OnSubtitlesRequest += OnSubtitlesRequest;
+            DialogueTree.OnMultipleChoiceRequest += OnMultipleChoiceRequest;
         }
         
         public void UnSubscribe()
         {
             DialogueTree.OnDialogueStarted -= OnDialogueStarted;
             DialogueTree.OnDialogueFinished -= OnDialogueFinished;
+            DialogueTree.OnSubtitlesRequest -= OnSubtitlesRequest;
+            DialogueTree.OnMultipleChoiceRequest -= OnMultipleChoiceRequest;
         }
 
         public void StartDialogue(NPCController npc)
@@ -97,9 +102,19 @@ namespace GameMain.Scripts.Entity.EntityLogic
             player.agent.updateRotation = true;
         }
 
+        public void OnSubtitlesRequest(SubtitlesRequestInfo info)
+        {
+            dialogueState.Value = DialogueState.Subtitles;
+        }
+        
+        public void OnMultipleChoiceRequest(MultipleChoiceRequestInfo info)
+        {
+            dialogueState.Value = DialogueState.Multiple;
+        }
+
         public void SkipDialogue()
         {
-            if (dialogueState.Value == DialogueState.Open)
+            if (dialogueState.Value == DialogueState.Subtitles)
             {
                 panel.SkipDialogue();
             }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using EPOOutline;
 using GameMain.Scripts.Controller;
+using GameMain.Scripts.Game;
+using GameMain.Scripts.Model;
 using GameMain.Scripts.Utility;
 using Newtonsoft.Json;
 using NodeCanvas.DialogueTrees;
@@ -37,13 +39,18 @@ namespace GameMain.Scripts.Entity.EntityLogic
         private static readonly int Turn = Animator.StringToHash("Turn");
         
         
-        public void OnGameInit()
+        public override void OnGameInit()
         {
+            if (isMovable)
+            {
+                agent.updatePosition = false;
+                agent.updateRotation = true;
+            }
         }
 
-        public void OnUpdate(float elapse)
+        public override void OnUpdate(float elapse)
         {
-            if (!isMovable)
+            if (!isMovable || !gameObject.activeInHierarchy)
             {
                 return;
             }
@@ -52,17 +59,17 @@ namespace GameMain.Scripts.Entity.EntityLogic
             {
                 pathStatus.Value = NavMeshStatus.Complete;
                 
-                MovePlayer(Vector3.zero);
+                MoveNPC(Vector3.zero);
             }
             else
             {
                 pathStatus.Value = NavMeshStatus.Running;
                 
-                MovePlayer(agent.velocity);
+                MoveNPC(agent.velocity);
             }
         }
         
-        private void MovePlayer(Vector3 move)
+        private void MoveNPC(Vector3 move)
         {
             if (move.magnitude > 1f) {
                 move.Normalize();
@@ -91,15 +98,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
             transform.position = rootPosition;
             agent.nextPosition = rootPosition;
         }
-
-        public void OnFixedUpdate(float elapse)
-        {
-        }
-
-        public void OnGameShutdown()
-        {
-        }
-
+        
         public Dictionary<string, object> GetData()
         {
             var blackboardSerialize = blackboard.Serialize(null, true);
@@ -122,9 +121,6 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         public void LoadData(Dictionary<string, object> data)
         {
-            var a = data["blackboard"];
-            Debug.Log(a.GetType());
-            
             var blackboardSerialize = (string)data["blackboard"];
             blackboard.Deserialize(blackboardSerialize, null, false);
             
