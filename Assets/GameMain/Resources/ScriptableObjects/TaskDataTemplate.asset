@@ -49,3 +49,7 @@ MonoBehaviour:
     state: 0
     activeText: "\u67E5\u6E05\u978B\u5B50\u4E3A\u4EC0\u4E48\u53EA\u6709\u4E00\u53EA\u4E86\u3002"
     completeText: 
+  - id: 9
+    state: 0
+    activeText: "\u8BA9\u8857\u4E0A\u7684\u6D41\u6C11\u4EEC\u79BB\u5F00\u3002"
+    completeText: 

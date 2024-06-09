@@ -30,7 +30,7 @@ namespace GameMain.Scripts.Model
                 task.state = Task.TaskState.Active;
             }
             
-            this.SendEvent<ModelChangeEvent>();
+            // this.SendEvent<ModelChangeEvent>();
         }
 
         public void CompleteTask(int id)
@@ -41,7 +41,7 @@ namespace GameMain.Scripts.Model
                 task.state = Task.TaskState.Complete;
             }
             
-            this.SendEvent<ModelChangeEvent>();
+            // this.SendEvent<ModelChangeEvent>();
         }
     }
 }

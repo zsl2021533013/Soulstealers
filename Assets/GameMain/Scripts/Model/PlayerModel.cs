@@ -12,12 +12,6 @@ namespace GameMain.Scripts.Model
 {
     public class PlayerModel : AbstractModel
     {
-        public enum NavMeshStatus
-        {
-            Running,
-            Complete
-        }
-
         public Transform transform;
         public Transform cameraPoint;
         public PlayerController controller;

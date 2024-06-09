@@ -1,6 +1,7 @@
 ﻿using GameMain.Scripts.Controller;
 using GameMain.Scripts.Event;
 using GameMain.Scripts.Model;
+using GameMain.Scripts.Utility;
 using QFramework;
 using UniRx;
 using UniRx.Triggers;
@@ -21,9 +22,9 @@ namespace GameMain.Scripts.Entity.EntityLogic
         private Vector2 smoothDeltaPosition;
         private Vector2 velocity;
         
-        public ReactiveProperty<PlayerModel.NavMeshStatus> pathStatus = new ReactiveProperty<PlayerModel.NavMeshStatus>()
+        public ReactiveProperty<NavMeshStatus> pathStatus = new ReactiveProperty<NavMeshStatus>()
         {
-            Value = PlayerModel.NavMeshStatus.Complete
+            Value = NavMeshStatus.Complete
         };
 
         private const float TurningSpeed = 240f;
@@ -57,17 +58,17 @@ namespace GameMain.Scripts.Entity.EntityLogic
             });
         }
 
-        private void Update()
+        public override void OnUpdate(float elapse)
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance) 
             {
-                pathStatus.Value = PlayerModel.NavMeshStatus.Complete;
+                pathStatus.Value = NavMeshStatus.Complete;
                 
                 MovePlayer(Vector3.zero);
             }
             else
             {
-                pathStatus.Value = PlayerModel.NavMeshStatus.Running;
+                pathStatus.Value = NavMeshStatus.Running;
                 
                 MovePlayer(agent.velocity);
             }
@@ -85,7 +86,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
             var moveAmount = move.z;
 
-            if (pathStatus.Value == PlayerModel.NavMeshStatus.Running)
+            if (pathStatus.Value == NavMeshStatus.Running)
             {
                 transform.Rotate(0, turningAmount * TurningSpeed * Time.deltaTime, 0);
             }
@@ -96,6 +97,7 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
         private void OnAnimatorMove()
         {
+            animator.applyRootMotion = true;
             var rootPosition = animator.rootPosition;
             rootPosition.y = agent.nextPosition.y;
             transform.position = rootPosition;
