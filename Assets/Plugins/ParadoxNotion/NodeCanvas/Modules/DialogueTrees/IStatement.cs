@@ -1,3 +1,4 @@
+using System;
 using ParadoxNotion;
 using NodeCanvas.Framework;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace NodeCanvas.DialogueTrees
     ///<summary>An interface to use for whats being said by a dialogue actor</summary>
     public interface IStatement
     {
+        bool hasSelected { get; }
         string text { get; }
         AudioClip audio { get; }
         string meta { get; }
@@ -18,11 +20,16 @@ namespace NodeCanvas.DialogueTrees
     [System.Serializable]
     public class Statement : IStatement
     {
-
+        [NonSerialized] private bool _hasSelected;
         [SerializeField] private string _text = string.Empty;
         [SerializeField] private AudioClip _audio;
         [SerializeField] private string _meta = string.Empty;
 
+        public bool hasSelected {
+            get { return _hasSelected; }
+            set { _hasSelected = value; }
+        }
+        
         public string text {
             get { return _text; }
             set { _text = value; }
@@ -58,6 +65,8 @@ namespace NodeCanvas.DialogueTrees
         ///<summary>Replace the text of the statement found in brackets, with blackboard variables ToString and returns a Statement copy</summary>
         public IStatement BlackboardReplace(IBlackboard bb) {
             var copy = ParadoxNotion.Serialization.JSONSerializer.Clone<Statement>(this);
+
+            copy.hasSelected = hasSelected;
 
             copy.text = copy.text.ReplaceWithin('[', ']', (input) =>
             {

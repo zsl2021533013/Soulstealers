@@ -14,12 +14,23 @@ namespace GameMain.Scripts.Scriptable_Object
         public Vector3 position;
         public Quaternion rotation;
     }
+
+    [Serializable]
+    public class NPCData
+    {
+        public Dictionary<string, Dictionary<int, bool>> dialogueTreeData;
+        public Dictionary<string, Variable> blackboardData;
+        public bool active;
+        public Vector3 position;
+        public Quaternion rotation;
+        public string tag;
+    }
     
     [Serializable]
     public class GameData
     {
         public PlayerData playerData = new PlayerData();
-        public Dictionary<string, Dictionary<string, object>> npcDataDic = new Dictionary<string, Dictionary<string, object>>();
+        public Dictionary<string, NPCData> npcDataDic = new Dictionary<string, NPCData>();
         public List<Task> tasks = new List<Task>();
     }
 }

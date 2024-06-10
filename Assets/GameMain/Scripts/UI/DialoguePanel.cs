@@ -5,10 +5,12 @@ using GameMain.Scripts.Entity.EntityLogic;
 using GameMain.Scripts.Utility;
 using NodeCanvas.DialogueTrees;
 using QFramework;
+using Sirenix.OdinInspector;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using ColorUtility = UnityEngine.ColorUtility;
 
 namespace GameMain.Scripts.UI
 {
@@ -44,9 +46,10 @@ namespace GameMain.Scripts.UI
         [Header("Multiple Choice")]
         public RectTransform optionsHolder;
         public GameObject optionBtnTemplate;
-
+        public Color MultipleChoiceHasSelectedColor;
+        
         private List<GameObject> cachedSpeechs = new List<GameObject>();
-        private Dictionary<CommonButton, (int index, string text)> cachedBtns = new ();
+        private Dictionary<CommonButton, (int index, IStatement statement, string uiText)> cachedBtns = new ();
         private bool isWaitingChoice;
         
         private TMP_Text speechTMP;
@@ -211,7 +214,7 @@ namespace GameMain.Scripts.UI
 
         public void OnMultipleChoiceRequest(MultipleChoiceRequestInfo info)
         {
-            cachedBtns = new Dictionary<CommonButton, (int, string)>();
+            cachedBtns = new Dictionary<CommonButton, (int, IStatement, string)>();
             
             optionsHolder.gameObject.SetActive(true);
             continueBtn.gameObject.SetActive(false);
@@ -225,8 +228,13 @@ namespace GameMain.Scripts.UI
                 var btn = Instantiate(optionBtnTemplate, optionBtnTemplate.transform.parent).GetComponent<CommonButton>();
                 btn.gameObject.SetActive(true);
                 btn.GetComponentInChildren<TMP_Text>().text = text;
+
+                if (pair.Key.hasSelected)
+                {
+                    btn.GetComponentInChildren<TMP_Text>().color = MultipleChoiceHasSelectedColor;
+                }
                 
-                cachedBtns.Add(btn, (pair.Value, text));
+                cachedBtns.Add(btn, (pair.Value, pair.Key, text));
                 btn.onClick.AddListener(() =>
                 {
                     optionsHolder.gameObject.SetActive(false);
@@ -240,7 +248,7 @@ namespace GameMain.Scripts.UI
                     actorSpeech.SetActive(true);
                     
                     speechTMP = actorSpeech.GetComponent<TMP_Text>();
-                    var t = Regex.Replace(cachedBtns[btn].text, @"(\d+\.)", "");
+                    var t = Regex.Replace(cachedBtns[btn].statement.text, @"(\d+\.)", "");
                     speechTMP.text = "应笑生：\n" + t;
             
                     Canvas.ForceUpdateCanvases();
@@ -257,11 +265,11 @@ namespace GameMain.Scripts.UI
 
             content.verticalNormalizedPosition = 0f;
 
-            foreach (var (btn, (i, text)) in cachedBtns)
+            foreach (var (btn, (i, statement, uiText)) in cachedBtns)
             {
                 var t = btn.GetComponentInChildren<TMP_Text>();
                 t.text = "";
-                t.DOText(text, text.Length * subtitleDelays.characterDelay);
+                t.DOText(uiText, uiText.Length * subtitleDelays.characterDelay);
             }
         }
 

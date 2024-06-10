@@ -72,6 +72,8 @@ namespace NodeCanvas.DialogueTrees
 
             status = Status.Success;
 
+            availableChoices[index].statement.hasSelected = true;
+
             System.Action Finalize = () => { DLGTree.Continue(index); };
 
             if ( saySelection ) {
@@ -80,6 +82,27 @@ namespace NodeCanvas.DialogueTrees
                 DialogueTree.RequestSubtitles(speechInfo);
             } else {
                 Finalize();
+            }
+        }
+
+        public Dictionary<int, bool> GetData()
+        {
+            var ans = new Dictionary<int, bool>();
+
+            for (var index = 0; index < availableChoices.Count; index++)
+            {
+                var choice = availableChoices[index];
+                ans.Add(index, choice.statement.hasSelected);
+            }
+
+            return ans;
+        }
+
+        public void LoadData(Dictionary<int, bool> data)
+        {
+            foreach (var (index, hasSelected) in data)
+            {
+                availableChoices[index].statement.hasSelected = hasSelected;
             }
         }
 

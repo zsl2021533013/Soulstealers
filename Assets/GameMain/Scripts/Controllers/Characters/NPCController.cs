@@ -3,6 +3,7 @@ using EPOOutline;
 using GameMain.Scripts.Controller;
 using GameMain.Scripts.Game;
 using GameMain.Scripts.Model;
+using GameMain.Scripts.Scriptable_Object;
 using GameMain.Scripts.Utility;
 using Newtonsoft.Json;
 using NodeCanvas.DialogueTrees;
@@ -13,12 +14,13 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 namespace GameMain.Scripts.Entity.EntityLogic
 {
     public class NPCController : ControllerBase
     {
-        [SerializeField] private DialogueTreeController controller;
+        [SerializeField] private DialogueTreeController dialogueTree;
         [SerializeField] private Blackboard blackboard;
         [SerializeField] private Transform dialoguePoint;
         [SerializeField] private Outlinable outline;
@@ -37,7 +39,6 @@ namespace GameMain.Scripts.Entity.EntityLogic
         
         private static readonly int Forward = Animator.StringToHash("Forward");
         private static readonly int Turn = Animator.StringToHash("Turn");
-        
         
         public override void OnGameInit()
         {
@@ -99,48 +100,53 @@ namespace GameMain.Scripts.Entity.EntityLogic
             agent.nextPosition = rootPosition;
         }
         
-        public Dictionary<string, object> GetData()
+        public NPCData GetData()
         {
-            var blackboardSerialize = blackboard.Serialize(null, true);
+            var dialogueTreeData = dialogueTree.GetData();
+            var blackboardData = blackboard.GetData();
             var active = gameObject.activeSelf; 
             var position = transform.position;
             var rotation = transform.rotation;
             var tag = transform.tag;
             
-            var data = new Dictionary<string, object>
+            var data = new NPCData
             {
-                { "blackboard", blackboardSerialize },
-                { "active", active},
-                { "position", position},
-                { "rotation", rotation},
-                { "tag", tag }
+                dialogueTreeData = dialogueTreeData,
+                blackboardData = blackboardData,
+                active = active,
+                position = position,
+                rotation = rotation,
+                tag = tag
             };
 
             return data;
         }
 
-        public void LoadData(Dictionary<string, object> data)
+        public void LoadData(NPCData data)
         {
-            var blackboardSerialize = (string)data["blackboard"];
-            blackboard.Deserialize(blackboardSerialize, null, false);
+            var dialogueTreeData = data.dialogueTreeData;
+            dialogueTree.LoadData(dialogueTreeData);
             
-            var active = (bool)data["active"];
+            var blackboardData = data.blackboardData;
+            blackboard.LoadData(blackboardData);
+            
+            var active = data.active;
             gameObject.SetActive(active);
 
-            var position = (Vector3)data["position"];
+            var position = data.position;
             transform.position = position;
 
-            var rotation = (Quaternion)data["rotation"];
+            var rotation = data.rotation;
             transform.rotation = rotation;
 
-            transform.tag = (string)data["tag"];
+            transform.tag = data.tag;
         }
         
         public void StartDialogue()
         {
-            if (!controller.isRunning)
+            if (!dialogueTree.isRunning)
             {
-                controller.StartDialogue();
+                dialogueTree.StartDialogue();
             }
         }
 

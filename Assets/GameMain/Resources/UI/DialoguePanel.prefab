@@ -72,6 +72,7 @@ MonoBehaviour:
   continueBtn: {fileID: 7428890687913569459}
   optionsHolder: {fileID: 596722956072802441}
   optionBtnTemplate: {fileID: 3046673072279226161}
+  MultipleChoiceHasSelectedColor: {r: 0.54509807, g: 0.54901963, b: 0.45882353, a: 1}
 --- !u!1 &3046673072279226161
 GameObject:
   m_ObjectHideFlags: 0

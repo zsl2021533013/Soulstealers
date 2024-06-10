@@ -64,13 +64,16 @@ namespace GameMain.Scripts.Entity.EntityLogic
 
             isShowingOutline.Subscribe(value =>
             {
-                var model = this.GetModel<NPCModel>();
-                var NPCs = model.NPCs;
+                var playerModel = this.GetModel<PlayerModel>();
+                var npcModel = this.GetModel<NPCModel>();
+                var player = playerModel.transform;
+                var NPCs = npcModel.NPCs;
+                
                 if (value)
                 {
                     NPCs.ForEach(npc =>
                     {
-                        if (npc.CompareTag("NPC"))
+                        if (npc.CompareTag("NPC") && Vector3.Distance(npc.transform.position, player.position) < 10f)
                         {
                             npc.EnableOutline();
                         }

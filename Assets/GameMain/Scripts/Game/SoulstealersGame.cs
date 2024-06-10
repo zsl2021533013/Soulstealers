@@ -84,7 +84,6 @@ namespace GameMain.Scripts.Game
 
         private void MakeSureData()
         {
-
             GameData data = null;
             if (ES3.KeyExists(DataName, AssetUtility.GetSaveAsset(DataName)))
             {

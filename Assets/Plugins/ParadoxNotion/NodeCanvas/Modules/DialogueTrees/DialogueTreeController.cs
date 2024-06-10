@@ -86,5 +86,30 @@ namespace NodeCanvas.DialogueTrees
         }
 #endif
 
+        public Dictionary<string, Dictionary<int, bool>> GetData()
+        {
+            var ans = new Dictionary<string, Dictionary<int, bool>>();
+            foreach (var node in graph.allNodes)
+            {
+                if (node is MultipleChoiceNode mcNode)
+                {
+                    ans.Add(mcNode.UID, mcNode.GetData());
+                }
+            }
+
+            return ans;
+        }
+
+        public void LoadData(Dictionary<string, Dictionary<int, bool>> data)
+        {
+            foreach (var node in graph.allNodes)
+            {
+                if (data.ContainsKey(node.UID) && node is MultipleChoiceNode mcNode)
+                {
+                    mcNode.LoadData(data[node.UID]);
+                }
+            }
+        }
+
     }
 }

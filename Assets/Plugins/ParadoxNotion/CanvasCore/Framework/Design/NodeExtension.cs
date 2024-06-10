@@ -82,7 +82,7 @@ namespace NodeCanvas.DialogueTrees
             {
                 if (mostNode.rect.xMax > rightMost)
                 {
-                    rightMost = mostNode.position.x;
+                    rightMost = mostNode.rect.xMax;
                     rightMostNode = mostNode;
                 }
             }, tree);
